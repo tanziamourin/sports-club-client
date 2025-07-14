@@ -1,46 +1,96 @@
 import { Link, NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-// import { AuthContext } from "../contexts/AuthContext";
+import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logOut().then().catch();
+    setDropdownOpen(false);
+    setMobileMenuOpen(false);
   };
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+
+  const navLinkClass = ({ isActive }) =>
+    `px-4 py-2 rounded-md font-medium transition-all duration-200 
+     ${isActive ? "bg-[#EA580C] text-white" : "text-textSecondary hover:text-white hover:bg-[#6B7280]"}`;
 
   const navLinks = (
     <>
-      <NavLink to="/" className="mx-2">Home</NavLink>
-      <NavLink to="/courts" className="mx-2">Courts</NavLink>
-      {user ? (
-        <NavLink to="/dashboard" className="mx-2">Dashboard</NavLink>
-      ) : (
-        <NavLink to="/login" className="mx-2">Login</NavLink>
+      <NavLink to="/" className={navLinkClass}>Home</NavLink>
+      <NavLink to="/courts" className={navLinkClass}>Courts</NavLink>
+      {!user && (
+        <NavLink to="/login" className={navLinkClass}>Login</NavLink>
       )}
     </>
   );
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 shadow-md">
-      <Link to="/" className="text-xl font-bold text-blue-600">🏀 Sports Club</Link>
-      <div className="space-x-4">{navLinks}</div>
-      {user && (
-        <div className="relative group">
-          <img
-            src={user.photoURL || "/default-avatar.png"}
-            className="w-8 h-8 rounded-full cursor-pointer"
-            alt="profile"
-          />
-          <div className="absolute right-0 hidden p-2 mt-2 bg-white rounded shadow-md group-hover:block">
-            <p className="text-sm">{user.displayName || user.email}</p>
-            <Link to="/dashboard" className="text-blue-500 ">Dashboard</Link>
-            <button onClick={handleLogout} className="text-red-500">Logout</button>
-          </div>
+    <header className="border-b shadow  bg-background">
+      <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+          🏸 <span>Sports Club</span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <nav className="items-center hidden gap-6 md:flex">
+          {navLinks}
+
+          {/* Profile Dropdown */}
+          {user && (
+            <div className="relative">
+              <button onClick={toggleDropdown} className="flex items-center gap-2">
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="user"
+                  className="object-cover border-2 rounded-full w-9 h-9 border-primary"
+                />
+                <FiChevronDown className="text-gray-500" />
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 z-50 w-48 p-4 mt-2 space-y-2 bg-white rounded-md shadow-lg text-textPrimary">
+                  <p className="text-sm font-semibold">{user.displayName || user.email}</p>
+                  <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="block text-primary hover:underline">
+                    Dashboard
+                  </Link>
+                  <button onClick={handleLogout} className="text-red-600 hover:underline">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </nav>
+
+        {/* Mobile Toggle */}
+        <button onClick={toggleMobileMenu} className="text-2xl md:hidden text-primary">
+          {mobileMenuOpen ? <FiX /> : <FiMenu />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="px-4 py-4 space-y-2 bg-white border-t border-gray-200 md:hidden">
+          {navLinks}
+          {user && (
+            <div className="pt-4 mt-4 space-y-1 border-t">
+              <p className="text-sm text-textSecondary">{user.displayName || user.email}</p>
+              <Link to="/dashboard" onClick={toggleMobileMenu} className="block text-primary hover:underline">
+                Dashboard
+              </Link>
+              <button onClick={handleLogout} className="text-red-600 hover:underline">Logout</button>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

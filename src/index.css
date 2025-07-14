@@ -1,6 +1,93 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
+
+
+:root {
+  --color-primary: #EA580C;
+  --color-secondary: #FDBA74;
+  --color-accent: #FACC15;
+  --color-background: #FFFAF0;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+}
+
+/* Base body styling */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #c2410c;
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+}
+.btn-secondary:hover {
+  background-color: #fb923c;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+}
+
+/* Cards and Containers */
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  color: #c2410c;
+  text-decoration: underline;
+}
+
+/* Navbar */
+.navbar {
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.navbar a {
+  color: var(--color-text-secondary);
+}
+.navbar a.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Utility classes */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.text-primary {
+  color: var(--color-text-primary);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
