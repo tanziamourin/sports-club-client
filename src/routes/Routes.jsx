@@ -41,6 +41,7 @@ import PrivateRoute from "./PrivateRoute";
 import MemberRoute from "./MemberRoute";
 import AdminRoute from "./AdminRoute";
 import NotFound from "../pages/CommonPages/NotFound";
+import WelcomePage from "../pages/Dashboard/WelcomePage";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,11 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+
+         {
+        index: true, // /dashboard route
+        element: <WelcomePage />,
+      },
       // 🟢 User Routes
       { path: "user/profile", element: <UserProfile /> },
       { path: "user/bookings", element: <UserBookings /> },
