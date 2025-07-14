@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const navLinkClass = ({ isActive }) =>
     `px-4 py-2 rounded-md font-medium transition-all duration-200 
-     ${isActive ? "bg-[#EA580C] text-white" : "text-textSecondary hover:text-white hover:bg-[#6B7280]"}`;
+     ${isActive ? "btn-primary" : ""}`;
 
   const navLinks = (
     <>
@@ -32,11 +32,11 @@ const Navbar = () => {
   );
 
   return (
-    <header className="border-b shadow  bg-background">
+    <header className="border-b shadow ">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
-          🏸 <span>Sports Club</span>
+        <Link to="/" className="flex items-center gap-2 text-3xl font-extrabold ">
+          🏸 <span className="text-[#3d312a]">Sports </span><span> Club</span>
         </Link>
 
         {/* Desktop Nav */}
