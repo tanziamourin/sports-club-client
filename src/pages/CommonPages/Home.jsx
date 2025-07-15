@@ -8,7 +8,7 @@ import Promotions from './Promotions';
 const Home = () => {
     return (
         <div>
-            {/* <Banner></Banner> */}
+            <Banner></Banner>
             <About></About>
             <LocationSection></LocationSection>
             <Promotions></Promotions>

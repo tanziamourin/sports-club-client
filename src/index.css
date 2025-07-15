@@ -21,6 +21,11 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* logo */
+
+.club{
+
+}
 /* Buttons */
 .btn-primary {
   background-color: var(--color-primary);
@@ -43,6 +48,9 @@ body {
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
+}
+.banner-h{
+   color: var(--color-background);
 }
 
 /* Cards and Containers */
