@@ -44,11 +44,11 @@ const BookingApproval = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="mb-4 text-xl font-bold text-[var(--color-primary)]">Pending Booking Requests</h2>
+      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">Pending Booking Requests</h2>
       {bookings.length === 0 ? (
         <p className="text-[var(--color-text-secondary)]">No pending bookings.</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded shadow">
+        <div className="overflow-x-auto bg-white rounded shadow lg:overflow-x-hidden">
           <table className="table w-full">
             <thead className="bg-[var(--color-secondary)] text-white">
               <tr>
@@ -68,7 +68,11 @@ const BookingApproval = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="hover:bg-[var(--color-background)]"
+                    whileHover={{
+                    scale: 1.015,
+                    backgroundColor: "#f3f4f6",
+                  }}
+                  className="transition-all duration-200"
                 >
                   <td>{b.
 userEmail}</td>

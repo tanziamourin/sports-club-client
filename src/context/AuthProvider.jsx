@@ -25,21 +25,21 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
 
-      if (currentUser) {
-        try {
-          const userData = {
-            name: currentUser.displayName || "Anonymous",
-            email: currentUser.email,
-            image: currentUser.photoURL || "",
-          };
+      // if (currentUser) {
+      //   try {
+      //     const userData = {
+      //       name: currentUser.displayName || "Anonymous",
+      //       email: currentUser.email,
+      //       image: currentUser.photoURL || "",
+      //     };
 
-          await axiosSecure.post("/users", userData);
-        } catch (error) {
-          if (error.response?.status !== 409) {
-            console.error("User insert failed:", error);
-          }
-        }
-      }
+      //     await axiosSecure.post("/users", userData);
+      //   } catch (error) {
+      //     if (error.response?.status !== 409) {
+      //       console.error("User insert failed:", error);
+      //     }
+      //   }
+      // }
     });
 
     return () => unsubscribe();

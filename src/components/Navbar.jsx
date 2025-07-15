@@ -4,12 +4,12 @@ import { AuthContext } from "../context/AuthContext";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    logOut().then().catch();
+    logout().then().catch();
     setDropdownOpen(false);
     setMobileMenuOpen(false);
   };
