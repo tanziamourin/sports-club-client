@@ -4,6 +4,7 @@ import {
   FiLogOut, FiMenu, FiX, FiHome, FiUser, FiUsers, FiBook,
   FiSettings, FiCreditCard, FiBell, FiList
 } from "react-icons/fi";
+import { motion } from "framer-motion";
 import { AuthContext } from "../context/AuthContext";
 
 const DashboardLayout = () => {
@@ -22,11 +23,9 @@ const DashboardLayout = () => {
   const renderLink = (to, icon, label) => (
     <NavLink
       to={to}
-      onClick={() => setMenuOpen(false)} // menu will auto-close on click
+      onClick={() => setMenuOpen(false)}
       className={({ isActive }) =>
-        `${navLinkStyle} ${
-          isActive ? "bg-slate-700 text-white font-semibold" : "text-gray-300"
-        }`
+        `${navLinkStyle} ${isActive ? "bg-slate-700 text-white font-semibold" : "text-gray-300"}`
       }
     >
       {icon} {label}
@@ -74,43 +73,47 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Mobile Menu Toggle Button */}
+    <div className="h-screen flex overflow-hidden bg-[var(--color-background)]">
+      {/* Mobile Toggle */}
       <button
         onClick={toggleMenu}
-        className="fixed z-50 p-2 text-2xl text-gray-800 lg:hidden top-4 left-4"
+        className="fixed z-50 p-2 text-2xl text-gray-800 top-4 left-4 lg:hidden"
       >
         {menuOpen ? <FiX /> : <FiMenu />}
       </button>
 
-      {/* Sidebar */}
+      {/* Sidebar - Fixed */}
       <aside
         className={`
-          fixed top-0 left-0 z-40 h-full w-64 bg-slate-800 shadow-md text-white transform
-          transition-transform duration-300 ease-in-out
+          fixed top-0 left-0 z-40 h-full w-64 bg-slate-800 text-white shadow-lg
+          transform transition-transform duration-300 ease-in-out
           ${menuOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 lg:static
         `}
       >
-        <div className="p-6">
-          <h2 className="mb-6 text-2xl font-bold text-white">🏸 Dashboard</h2>
-         <div className="items-end space-y-50"> 
-           <div className="flex flex-col space-y-1">{renderSidebarLinks()}</div>
-
+        <div className="flex flex-col justify-between h-full p-6">
+          <div>
+            <h2 className="mb-6 text-2xl font-bold">🏸 Dashboard</h2>
+            <div className="flex flex-col space-y-1">{renderSidebarLinks()}</div>
+          </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+            className="flex items-center gap-2 px-4 py-2 mt-6 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
           >
             <FiLogOut /> Logout
           </button>
-         </div>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 lg:ml-64">
+      {/* Scrollable Content Area */}
+      <motion.main
+        className="flex-1 h-screen p-4 ml-0 overflow-y-auto lg:ml-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Outlet />
-      </main>
+      </motion.main>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 
 const AdminProfile = () => {
   const { user } = useContext(AuthContext);
@@ -16,19 +17,47 @@ const AdminProfile = () => {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="p-4 bg-white rounded shadow">
-        <img src={user?.photoURL} alt="Admin" className="w-20 h-20 mb-2 rounded-full" />
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-10 "
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2 }}
+        className="p-10 mt-10 text-center bg-white rounded-lg shadow-md"
+      >
+        <img
+          src={user?.photoURL}
+          alt="Admin"
+          className="w-24 h-24 mx-auto mb-3 rounded-full border-4 border-[var(--color-primary)]"
+        />
         <h2 className="text-xl font-semibold">{user?.displayName}</h2>
-        <p>{user?.email}</p>
-      </div>
+        <p className="text-sm text-gray-500">{user?.email}</p>
+      </motion.div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="p-4 bg-blue-100 rounded">Total Courts: {stats.totalCourts}</div>
-        <div className="p-4 bg-green-100 rounded">Total Users: {stats.totalUsers}</div>
-        <div className="p-4 bg-yellow-100 rounded">Total Members: {stats.totalMembers}</div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {[
+          { label: "Total Courts", value: stats.totalCourts, color: "bg-[var(--color-secondary)]" },
+          { label: "Total Users", value: stats.totalUsers, color: "bg-green-200" },
+          { label: "Total Members", value: stats.totalMembers, color: "bg-yellow-200" },
+        ].map((stat, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.2 }}
+            viewport={{ once: true }}
+            className={`p-4 ${stat.color} text-[var(--color-text-primary)] rounded shadow`}
+          >
+            <h4 className="text-lg font-semibold">{stat.label}</h4>
+            <p className="text-2xl">{stat.value}</p>
+          </motion.div>
+        ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
