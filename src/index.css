@@ -58,11 +58,21 @@ a {
   color: var(--color-primary);
   text-decoration: none;
 }
+
+
 a:hover {
   color: #c2410c;
   text-decoration: underline;
 }
-
+/* for footer */
+.a-footer {
+  color: var(--color-background);
+  text-decoration: none;
+}
+.a-footer:hover {
+  color: #111827;
+  text-decoration: underline;
+}
 /* Navbar */
 .navbar {
   background-color: white;

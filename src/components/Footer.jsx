@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="px-4 pt-10 pb-6 md:px-10 " style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-background)' }}>
+    <footer className="px-4 pt-10 pb-6 md:px-10 " style={{ backgroundColor: 'var(--color-primary)' }}>
       <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl md:grid-cols-4">
 
         {/* Logo & About */}
         <div>
           <div className="flex items-center gap-2 mb-4 text-3xl">
             🏸
-            <h2 className="text-3xl font-extrabold ">Sports Club</h2>
+            <h2 className="text-3xl font-extrabold ">Sports <span className=''>Club</span></h2>
           </div>
           <p className="text-sm text-[var(--color-background)]">
             Empowering athletes and enthusiasts through world-class facilities and a vibrant community.
@@ -21,11 +21,11 @@ const Footer = () => {
         {/* Quick Links */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Quick Links</h3>
-          <ul className="space-y-2 text-sm">
-            <li><Link to="/" className="text-white hover:underline ">Home</Link></li>
-            <li><Link to="/courts" className="hover:underline ">Courts</Link></li>
-            <li><Link to="/login" className="hover:underline ">Login</Link></li>
-            <li><Link to="/dashboard" className=" hover:underline">Dashboard</Link></li>
+          <ul className="space-y-2 text-sm a-footer">
+            <li><Link to="/"  className='a-footer' >Home</Link></li>
+            <li><Link to="/courts"  className='a-footer'>Courts</Link></li>
+            <li><Link to="/login"  className='a-footer'>Login</Link></li>
+            <li><Link to="/dashboard"  className='a-footer'>Dashboard</Link></li>
           </ul>
         </div>
 
