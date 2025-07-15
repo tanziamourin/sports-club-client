@@ -48,7 +48,7 @@ const BookingApproval = () => {
       {bookings.length === 0 ? (
         <p className="text-[var(--color-text-secondary)]">No pending bookings.</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded shadow lg:overflow-x-hidden">
+        <div className="overflow-x-scroll bg-white rounded shadow lg:overflow-x-hidden">
           <table className="table w-full">
             <thead className="bg-[var(--color-secondary)] text-white">
               <tr>

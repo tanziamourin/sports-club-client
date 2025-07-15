@@ -27,22 +27,22 @@ const AdminProfile = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2 }}
-        className="p-10 mt-10 text-center bg-white rounded-lg shadow-md"
+        className="p-10 mt-10 text-center bg-white rounded-lg shadow-md "
       >
         <img
           src={user?.photoURL}
           alt="Admin"
-          className="w-24 h-24 mx-auto mb-3 rounded-full border-4 border-[var(--color-primary)]"
+          className="w-24 h-24 mx-auto mb-3 rounded-full border-4 border-[var(--color-primary)]  "
         />
-        <h2 className="text-xl font-semibold">{user?.displayName}</h2>
+        <h2 className="text-xl font-semibold text-gray-500 ">{user?.displayName}</h2>
         <p className="text-sm text-gray-500">{user?.email}</p>
       </motion.div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[
           { label: "Total Courts", value: stats.totalCourts, color: "bg-[var(--color-secondary)]" },
-          { label: "Total Users", value: stats.totalUsers, color: "bg-green-200" },
-          { label: "Total Members", value: stats.totalMembers, color: "bg-yellow-200" },
+          { label: "Total Users", value: stats.totalUsers, color: "bg-[var(--color-accent)]" },
+          { label: "Total Members", value: stats.totalMembers, color: "bg-[var(--color-primary)]" },
         ].map((stat, i) => (
           <motion.div
             key={i}
@@ -50,7 +50,7 @@ const AdminProfile = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: i * 0.2 }}
             viewport={{ once: true }}
-            className={`p-4 ${stat.color} text-[var(--color-text-primary)] rounded shadow`}
+            className={`p-4 ${stat.color} text-[var(--color-text-primary)]  rounded shadow`}
           >
             <h4 className="text-lg font-semibold">{stat.label}</h4>
             <p className="text-2xl">{stat.value}</p>

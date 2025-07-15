@@ -14,6 +14,16 @@
   --color-text-secondary: #6B7280;
 }
 
+
+[data-theme="dark"] {
+  --color-primary: #FDBA74;
+  --color-secondary: #EA580C;
+  --color-accent: #FACC15;
+  --color-background: #1f2937;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+}
+
 /* Base body styling */
 body {
   background-color: var(--color-background);
@@ -52,7 +62,9 @@ h1, h2, h3, h4, h5, h6 {
 .banner-h{
    color: var(--color-background);
 }
-
+.p-h4{
+   color: var(--color-text-primary);
+}
 /* Cards and Containers */
 .card {
   background-color: white;

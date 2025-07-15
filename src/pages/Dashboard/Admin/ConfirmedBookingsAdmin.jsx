@@ -20,7 +20,7 @@ const filtered = bookings.filter((b) =>
 
   return (
     <div className="p-4">
-      <h2 className="mb-4 text-2xl font-bold">All Confirmed Bookings</h2>
+      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">All Confirmed Bookings</h2>
 
       <input
         type="text"
@@ -35,9 +35,9 @@ const filtered = bookings.filter((b) =>
       ) : filtered.length === 0 ? (
         <p>No confirmed bookings found.</p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-white rounded shadow lg:overflow-x-hidden">
           <table className="table w-full">
-            <thead>
+            <thead className="bg-[var(--color-secondary)] text-white">
               <tr>
                 <th>User</th>
                 <th>Email</th>
