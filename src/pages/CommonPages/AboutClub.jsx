@@ -1,22 +1,28 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import Lottie from 'lottie-react';
+
+// Local JSON animations (rename to remove spaces if needed)
+import historyAnimation from '../../assets/History.json';
+import missionAnimation from '../../assets/A crown.json';
+import visionAnimation from '../../assets/Vision Eye.json';
 
 const aboutData = [
   {
     title: '📜 Our History',
     text: 'Founded in 1995, our club began as a small group of sports lovers. Today, we are a premier destination for athletes.',
-    animation: 'https://lottie.host/23ffdb59-ed7a-4424-a1fb-3d6824c5503d/zckrPiEv4H.lottie'
+    animation: historyAnimation
   },
   {
     title: '🎯 Our Mission',
     text: 'To foster a passionate and active community through professional facilities, inclusive programs, and events.',
-    animation: 'https://lottie.host/a01609d8-dcdf-45bc-8c07-b72c053b81a8/0bys81HpMN.lottie'
+    animation: missionAnimation
   },
   {
     title: '🚀 Our Vision',
     text: 'To redefine the local sports experience by building a legacy of excellence, inclusiveness, and innovation.',
-    animation: 'https://lottie.host/0b2b25e3-cd83-45af-b7d5-8624260c2b84/pZR5ko3RNS.lottie'
-  },
+    animation: visionAnimation
+  }
 ];
 
 const AboutClub = () => {
@@ -41,11 +47,11 @@ const AboutClub = () => {
               {/* Card */}
               <div className="flex flex-col items-center gap-6 p-6 transition duration-300 bg-white shadow-lg md:flex-row rounded-xl hover:shadow-xl">
                 <div className="w-full md:w-1/2">
-                  <DotLottieReact
-                    src={item.animation}
+                  <Lottie
+                    animationData={item.animation}
                     loop
                     autoplay
-                    style={{ width: '100%', height: 'auto' }}
+                    style={{ width: '75%', height: 'auto' }}
                   />
                 </div>
                 <div className="w-full md:w-1/2">
