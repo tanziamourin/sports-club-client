@@ -13,6 +13,7 @@ const CouponBadge = ({ code, discount }) => {
         borderColor: 'var(--color-accent)',
         backgroundColor: 'white',
         minWidth: '200px',
+        // marginTop:'20px'
       }}
     >
       <h4

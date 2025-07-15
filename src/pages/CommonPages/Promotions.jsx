@@ -16,12 +16,12 @@ const Promotions = () => {
 
   return (
     <section
-      className="px-4 py-14 md:px-10"
+      className="px-4 mb-16 py-14 md:px-10"
       style={{ backgroundColor: 'var(--color-background)' }}
     >
-      <div className="max-w-6xl mx-auto text-center">
+      <div className="max-w-6xl mx-auto mb-16 text-center">
         <h2
-          className="mb-10 text-3xl font-bold md:text-4xl"
+          className="mb-16 text-3xl font-bold md:text-4xl"
           
         >
           🎁 Promotions & Discounts
@@ -32,7 +32,7 @@ const Promotions = () => {
         ) : coupons.length === 0 ? (
           <p className="text-gray-600">No active coupons right now.</p>
         ) : (
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-6 mb-16">
             {coupons.map((coupon) => (
               <CouponBadge
                 key={coupon._id}

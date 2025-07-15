@@ -63,9 +63,9 @@ const Banner = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
           transition={{ duration: 0.8 }}
-          className="max-w-md text-left text-white"
+          className="max-w-md text-left "
         >
-          <h2 className="mb-4 text-3xl font-bold banner-h md:text-5xl">{current.title}</h2>
+          <h2 className="mb-4 text-3xl font-bold dark:text-white banner-h md:text-5xl">{current.title}</h2>
           <p className="text-lg text-orange-300 md:text-xl">{current.description}</p>
         </motion.div>
       </div>
