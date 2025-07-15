@@ -73,41 +73,47 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-[var(--color-background)]">
-      {/* Mobile Toggle */}
-      <button
-        onClick={toggleMenu}
-        className="fixed z-50 p-2 text-2xl text-gray-800 top-4 left-4 lg:hidden"
-      >
-        {menuOpen ? <FiX /> : <FiMenu />}
-      </button>
+    <div className="flex h-screen overflow-hidden bg-[var(--color-background)] relative">
+      {/* ✅ Toggle Icon - Fixed on top-left mobile only */}
+      <div className="fixed z-50 top-4 left-4 lg:hidden">
+        <button
+          onClick={toggleMenu}
+          className="p-2 text-2xl text-white rounded-full shadow-lg bg-slate-800"
+        >
+          {menuOpen ? <FiX /> : <FiMenu />}
+        </button>
+      </div>
 
-      {/* Sidebar - Fixed */}
+      {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-40 h-full w-64 bg-slate-800 text-white shadow-lg
+          fixed top-0 left-0 z-40 w-64 bg-slate-800 text-white shadow-lg
           transform transition-transform duration-300 ease-in-out
+          h-screen flex flex-col justify-between
           ${menuOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 lg:static
         `}
       >
-        <div className="flex flex-col justify-between h-full p-6">
-          <div>
-            <h2 className="mb-6 text-2xl font-bold">🏸 Dashboard</h2>
-            <div className="flex flex-col space-y-1">{renderSidebarLinks()}</div>
-          </div>
+        <div className="flex-1 p-6 overflow-y-auto">
+        
+
+          <h2 className="mb-4 text-2xl font-bold">🏸 Dashboard</h2>
+          {renderSidebarLinks()}
+        </div>
+
+        <div className="p-6 border-t border-white/20">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 mt-6 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
           >
             <FiLogOut /> Logout
           </button>
         </div>
       </aside>
 
-      {/* Scrollable Content Area */}
+      {/* Main Content */}
       <motion.main
-        className="flex-1 h-screen p-4 ml-0 overflow-y-auto lg:ml-10"
+        className="flex-1 h-screen p-4 ml-0 overflow-y-auto lg:ml-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}

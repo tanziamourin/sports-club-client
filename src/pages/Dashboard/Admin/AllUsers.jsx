@@ -67,7 +67,7 @@ const AllUsers = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="mb-6 text-2xl font-bold text-center text-transparent bg-gradient-to-r from-orange-600 to-yellow-500 bg-clip-text">
+      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">
         All Registered Users
       </h2>
 
