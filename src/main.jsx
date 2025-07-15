@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import "animate.css";
+
 import './index.css';
 import router from './routes/Routes';
 // import AuthProvider from './context/AuthProvider';

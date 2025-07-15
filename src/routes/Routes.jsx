@@ -43,6 +43,7 @@ import AdminRoute from "./AdminRoute";
 import NotFound from "../pages/CommonPages/NotFound";
 import WelcomePage from "../pages/Dashboard/WelcomePage";
 import EditCourt from "../pages/Dashboard/Admin/EditCourt";
+import EditAnnouncement from "../pages/Dashboard/Admin/EditAnnouncement";
 
 const router = createBrowserRouter([
   {
@@ -155,6 +156,16 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <AdminRoute>
               <ManageAnnouncements />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/announcements/edit/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <EditAnnouncement></EditAnnouncement>
             </AdminRoute>
           </PrivateRoute>
         ),
