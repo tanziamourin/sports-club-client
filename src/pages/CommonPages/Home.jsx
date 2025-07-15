@@ -1,15 +1,16 @@
 import React from 'react';
 import Banner from './Banner';
 import LocationSection from './LocationSection';
-// import PromotionSection from './PromotionSection';
-import About from './About';
+
 import Promotions from './Promotions';
+import AboutClub from './AboutClub';
 
 const Home = () => {
     return (
         <div>
             <Banner></Banner>
-            <About></About>
+           
+            <AboutClub></AboutClub>
             <LocationSection></LocationSection>
             <Promotions></Promotions>
             {/* <PromotionSection></PromotionSection> */}
