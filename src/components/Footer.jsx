@@ -1,17 +1,24 @@
 // src/components/Footer.jsx
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import ScrollToTopButton from './ScrollToTopButton';
 
 const Footer = () => {
   return (
-    <footer className="px-4 pt-10 pb-6 md:px-10 " style={{ backgroundColor: 'var(--color-primary)' }}>
+    <motion.footer
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="px-4 pt-10 pb-6 md:px-10"
+      style={{ backgroundColor: 'var(--color-primary)' }}
+    >
       <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl md:grid-cols-4">
-
         {/* Logo & About */}
         <div>
-          <div className="flex items-center gap-2 mb-4 text-3xl">
-            🏸
-            <h2 className="text-3xl font-extrabold ">Sports <span className=''>Club</span></h2>
+          <div className="flex items-center gap-2 mb-4 text-3xl font-extrabold text-white">
+            🏸 <h2>Sports <span className='text-[var(--color-accent)]'>Club</span></h2>
           </div>
           <p className="text-sm text-[var(--color-background)]">
             Empowering athletes and enthusiasts through world-class facilities and a vibrant community.
@@ -21,11 +28,11 @@ const Footer = () => {
         {/* Quick Links */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Quick Links</h3>
-          <ul className="space-y-2 text-sm ">
-            <li><Link to="/"  className='a-footer' >Home</Link></li>
-            <li><Link to="/courts"  className='a-footer'>Courts</Link></li>
-            <li><Link to="/login"  className='a-footer'>Login</Link></li>
-            <li><Link to="/dashboard"  className='a-footer'>Dashboard</Link></li>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/" className="a-footer">Home</Link></li>
+            <li><Link to="/courts" className="a-footer">Courts</Link></li>
+            <li><Link to="/login" className="a-footer">Login</Link></li>
+            <li><Link to="/dashboard" className="a-footer">Dashboard</Link></li>
           </ul>
         </div>
 
@@ -40,11 +47,12 @@ const Footer = () => {
         {/* Social Media */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Follow Us</h3>
-          <div className="flex gap-4 text-xl">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-white text-[var(--color-background)]"><FaFacebookF /></a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-white text-[var(--color-background)]"><FaInstagram /></a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white text-[var(--color-background)]"><FaTwitter /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white text-[var(--color-background)]"><FaLinkedinIn /></a>
+          <div className="flex gap-4 text-xl ">
+            <a className="a-footer" href="https://facebook.com" target="_blank" rel="noreferrer" 
+           ><FaFacebookF /></a>
+            <a className="a-footer" href="https://instagram.com" target="_blank" rel="noreferrer" ><FaInstagram /></a>
+            <a className="a-footer" href="https://twitter.com" target="_blank" rel="noreferrer" ><FaTwitter /></a>
+            <a className="a-footer" href="https://linkedin.com" target="_blank" rel="noreferrer" ><FaLinkedinIn /></a>
           </div>
         </div>
       </div>
@@ -53,7 +61,9 @@ const Footer = () => {
       <div className="mt-10 border-t pt-4 text-center text-sm text-[var(--color-background)] border-[rgba(255,255,255,0.3)]">
         © {new Date().getFullYear()} Sports Club. All rights reserved.
       </div>
-    </footer>
+      <ScrollToTopButton></ScrollToTopButton>
+    </motion.footer>
+    
   );
 };
 

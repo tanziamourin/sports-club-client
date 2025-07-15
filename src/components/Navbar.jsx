@@ -35,9 +35,9 @@ const Navbar = () => {
     <header className="border-b shadow ">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-3xl font-extrabold ">
-          🏸 <span className="text-[#3d312a]">Sports </span><span > Club</span>
-        </Link>
+        <h2 to="/" className="flex items-center gap-2 text-3xl font-extrabold ">
+          🏸 <span className="">Sports </span><span className="text-[var(--color-accent)]" > Club</span>
+        </h2>
 
         {/* Desktop Nav */}
         <nav className="items-center hidden gap-6 md:flex">

@@ -75,12 +75,14 @@ a:hover {
 /* for footer */
 .a-footer {
   color: var(--color-background);
-  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
 }
 .a-footer:hover {
-  color: #111827;
+  color: white;
   text-decoration: underline;
 }
+
 /* Navbar */
 .navbar {
   background-color: white;

@@ -22,7 +22,7 @@ const Promotions = () => {
       <div className="max-w-6xl mx-auto text-center">
         <h2
           className="mb-10 text-3xl font-bold md:text-4xl"
-          style={{ color: 'var(--color-primary)' }}
+          
         >
           🎁 Promotions & Discounts
         </h2>

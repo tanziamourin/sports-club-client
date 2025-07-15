@@ -48,7 +48,7 @@ const LocationSection = () => {
           href="https://www.google.com/maps/place/Gulshan,+Dhaka"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block mt-6 px-6 py-2 rounded-md bg-[var(--color-primary)] text-white font-semibold hover:bg-orange-700 transition"
+          className="inline-block px-6 py-2 mt-6 font-semibold transition rounded-md btn-primary"
         >
           View on Google Maps
         </a>
