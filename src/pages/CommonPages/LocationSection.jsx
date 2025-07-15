@@ -1,39 +1,59 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { motion } from 'framer-motion';
 
 const LocationSection = () => {
-  // Club এর GPS কোঅর্ডিনেট (Dhaka, Gulshan এর approx location)
   const position = [23.7805733, 90.4192895];
 
   return (
-    <div className="px-4 my-10 text-center">
-      <h2 className="mb-4 text-2xl font-bold">📍 Club Location</h2>
-      <p className="mb-4 text-lg">123 Sports Arena, Gulshan, Dhaka, Bangladesh</p>
+    <section className="bg-[var(--color-background)] py-12 px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-bold text-[var(--color-primary)] mb-2"
+        >
+          📍 Club Location
+        </motion.h2>
 
-      <div className="mx-auto" style={{ height: '400px', maxWidth: '600px' }}>
-        <MapContainer center={position} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
-          <TileLayer
-            attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>
-              123 Sports Arena, Gulshan, Dhaka, Bangladesh
-            </Popup>
-          </Marker>
-        </MapContainer>
+        <p className="text-lg text-[var(--color-text-secondary)] mb-6">
+          123 Sports Arena, Gulshan, Dhaka, Bangladesh
+        </p>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="rounded-lg shadow-lg overflow-hidden border border-[var(--color-secondary)] mx-auto max-w-3xl"
+          style={{ height: '400px' }}
+        >
+          <MapContainer center={position} zoom={15} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+            <TileLayer
+              attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={position}>
+              <Popup>
+                📍 123 Sports Arena, Gulshan, Dhaka, Bangladesh
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </motion.div>
+
+        <a
+          href="https://www.google.com/maps/place/Gulshan,+Dhaka"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block mt-6 px-6 py-2 rounded-md bg-[var(--color-primary)] text-white font-semibold hover:bg-orange-700 transition"
+        >
+          View on Google Maps
+        </a>
       </div>
-
-      <a
-        href="https://www.google.com/maps/place/Gulshan,+Dhaka"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block px-4 py-2 mt-4 text-white transition bg-blue-600 rounded hover:bg-blue-700"
-      >
-        View on Google Maps
-      </a>
-    </div>
+    </section>
   );
 };
 

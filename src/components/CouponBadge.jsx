@@ -1,12 +1,29 @@
-import React from 'react';
+import { motion } from "framer-motion";
 
 const CouponBadge = ({ code, discount }) => {
-    return (
-        <div className="p-4 m-2 rounded-lg shadow-lg badge-container bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-            <h3 className="text-lg font-bold text-white">{code}</h3>
-            <p className="text-xl text-white">{discount}% OFF</p>
-        </div>
-    );
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="px-6 py-4 text-center border-2 border-dashed shadow-md rounded-xl"
+      style={{
+        borderColor: 'var(--color-accent)',
+        backgroundColor: 'white',
+        minWidth: '200px',
+      }}
+    >
+      <h4
+        className="mb-2 text-lg font-bold"
+        style={{ color: 'var(--color-primary)' }}
+      >
+        {code}
+      </h4>
+      <p className="font-medium text-gray-700">{discount}% OFF</p>
+    </motion.div>
+  );
 };
 
 export default CouponBadge;
