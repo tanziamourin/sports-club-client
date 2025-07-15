@@ -257,10 +257,10 @@ const router = createBrowserRouter([
   //     { path: "announcements", element: },
   //   ],
   // },
-  // {
-  //   path: "*",
-  //   element: <NotFound />,
-  // },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default router;
