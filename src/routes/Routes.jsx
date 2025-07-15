@@ -42,6 +42,7 @@ import MemberRoute from "./MemberRoute";
 import AdminRoute from "./AdminRoute";
 import NotFound from "../pages/CommonPages/NotFound";
 import WelcomePage from "../pages/Dashboard/WelcomePage";
+import EditCourt from "../pages/Dashboard/Admin/EditCourt";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+  path: "/dashboard/admin/courts/edit/:id",
+  element: <PrivateRoute><AdminRoute><EditCourt /></AdminRoute></PrivateRoute>, // or your auth wrapper
+},
       {
         path: "admin/confirmed",
         element: (

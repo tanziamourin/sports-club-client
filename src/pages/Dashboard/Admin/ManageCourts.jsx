@@ -1,27 +1,21 @@
+// ManageCourts.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useState } from "react";
+
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const ManageCourts = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const imageHostKey = import.meta.env.VITE_image_upload_key;
-
-  const [formData, setFormData] = useState({
-    _id: "",
-    name: "",
-    type: "",
-    image: null,
-    price: ""
-  });
-
-  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   const { data: courts = [], isLoading } = useQuery({
     queryKey: ["courts"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/courts/all"); // fetch full list
+      const res = await axiosSecure.get("/courts/all");
       return res.data;
     },
   });
@@ -31,18 +25,6 @@ const ManageCourts = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["courts"]);
       Swal.fire("✅ Court Added!", "", "success");
-      setFormData({ name: "", type: "", image: null, price: "" });
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: async (updatedCourt) =>
-      await axiosSecure.patch(`/courts/${updatedCourt._id}`, updatedCourt),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["courts"]);
-      Swal.fire("✅ Court Updated!", "", "success");
-      setIsEditing(false); // Close the edit form
-      setFormData({ name: "", type: "", image: null, price: "" });
     },
   });
 
@@ -63,22 +45,25 @@ const ManageCourts = () => {
     },
   });
 
-  const handleSubmit = async (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-    const { name, type, image, price } = formData;
+    const form = e.target;
+    const name = form.name.value;
+    const type = form.type.value;
+    const price = form.price.value;
+    const imageFile = form.image.files[0];
 
-    if (!name || !type || !price || !image) {
+    if (!name || !type || !price || !imageFile) {
       return Swal.fire("⚠️ Fill all fields!", "", "warning");
     }
 
-    const imageFile = new FormData();
-    imageFile.append("image", image);
+    const formData = new FormData();
+    formData.append("image", imageFile);
 
     const uploadRes = await fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
       method: "POST",
-      body: imageFile,
+      body: formData,
     });
-
     const imgData = await uploadRes.json();
 
     if (imgData.success) {
@@ -90,66 +75,36 @@ const ManageCourts = () => {
         status: "Available",
         slots: ["08:30 AM", "11:30 AM", "02:30 PM", "05:30 PM"],
       };
-      if (isEditing) {
-        updateMutation.mutate({ ...courtData, _id: formData._id });
-      } else {
-        addMutation.mutate(courtData);
-      }
+      addMutation.mutate(courtData);
+      form.reset();
     } else {
       Swal.fire("❌ Image upload failed!", "", "error");
     }
   };
 
-  const handleEdit = (court) => {
-    setFormData(court);
-    setIsEditing(true);
+  const handleEditNavigate = (court) => {
+    navigate(`/dashboard/admin/courts/edit/${court._id}`, { state: court });
   };
 
   return (
-    <div className="p-4">
-      <h2 className="mb-4 text-xl font-bold">Manage Courts</h2>
+    <motion.div className="p-4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <h2 className="mb-6 text-3xl font-bold text-center text-transparent bg-gradient-to-r from-orange-600 to-yellow-400 bg-clip-text">
+        Manage Courts
+      </h2>
 
-      {/* Add/Edit Court Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 gap-4 p-4 rounded md:grid-cols-2 bg-base-200"
-      >
-        <input
-          type="text"
-          placeholder="Court Name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="input input-bordered"
-        />
-        <input
-          type="text"
-          placeholder="Type (e.g. Tennis)"
-          value={formData.type}
-          onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-          className="input input-bordered"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
-          className="file-input file-input-bordered"
-        />
-        <input
-          type="number"
-          placeholder="Price"
-          value={formData.price}
-          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-          className="input input-bordered"
-        />
-        <button type="submit" className="btn btn-primary col-span-full">
-          {isEditing ? "Update Court" : "Add Court"}
-        </button>
-      </form>
+      {/* Add Court Form */}
+      <motion.form onSubmit={handleAdd} className="grid grid-cols-1 gap-4 p-6 bg-white rounded-lg shadow md:grid-cols-2" whileHover={{ scale: 1.01 }}>
+        <input name="name" type="text" placeholder="Court Name" className="input input-bordered" />
+        <input name="type" type="text" placeholder="Type (e.g. Tennis)" className="input input-bordered" />
+        <input name="image" type="file" accept="image/*" className="file-input file-input-bordered" />
+        <input name="price" type="number" placeholder="Price" className="input input-bordered" />
+        <button type="submit" className="col-span-full btn btn-accent">Add Court</button>
+      </motion.form>
 
-      {/* Court List */}
-      <div className="mt-6 overflow-x-auto">
-        <table className="table w-full">
-          <thead>
+      {/* Court Table */}
+      <div className="mt-8 overflow-x-auto bg-white rounded shadow">
+        <table className="table">
+          <thead className="bg-[var(--color-secondary)] text-white">
             <tr>
               <th>Image</th>
               <th>Name</th>
@@ -161,38 +116,27 @@ const ManageCourts = () => {
           </thead>
           <tbody>
             {isLoading ? (
-              <tr>
-                <td colSpan="6">Loading...</td>
-              </tr>
+              <tr><td colSpan="6" className="text-center">Loading...</td></tr>
             ) : (
               courts.map((court) => (
-                <tr key={court._id}>
-                  <td>
-                    <img src={court.image} className="object-cover w-16 h-12" />
-                  </td>
+                <motion.tr key={court._id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="hover:bg-orange-50">
+                  <td><img src={court.image} alt="court" className="object-cover w-16 h-12 rounded" /></td>
                   <td>{court.name}</td>
                   <td>{court.type}</td>
                   <td>${court.price}</td>
                   <td>
                     <select
-                      className="select select-sm select-bordered"
+                      className="select select-bordered select-sm"
                       value={court.status}
-                      onChange={(e) =>
-                        statusMutation.mutate({ id: court._id, status: e.target.value })
-                      }
+                      onChange={(e) => statusMutation.mutate({ id: court._id, status: e.target.value })}
                     >
                       <option value="Available">Available</option>
                       <option value="Unavailable">Unavailable</option>
                       <option value="Under Maintenance">Under Maintenance</option>
                     </select>
                   </td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => handleEdit(court)}
-                    >
-                      Edit
-                    </button>
+                  <td className="flex flex-wrap gap-2">
+                    <button className="btn btn-sm btn-info" onClick={() => handleEditNavigate(court)}>Edit</button>
                     <button
                       className="btn btn-sm btn-error"
                       onClick={() => {
@@ -202,22 +146,20 @@ const ManageCourts = () => {
                           showCancelButton: true,
                           confirmButtonText: "Yes, delete it!",
                         }).then((result) => {
-                          if (result.isConfirmed) {
-                            deleteMutation.mutate(court._id);
-                          }
+                          if (result.isConfirmed) deleteMutation.mutate(court._id);
                         });
                       }}
                     >
                       Delete
                     </button>
                   </td>
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
