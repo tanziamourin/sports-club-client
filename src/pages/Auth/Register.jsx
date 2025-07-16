@@ -73,7 +73,7 @@ const Register = () => {
 
       const userInfo = {
         name: data.name,
-        email: data.email,
+        email: data.email.toLowerCase(),
         image: profilePic || "https://i.ibb.co/zfvpZf8/default-user.png",
         role: "user",
         createdAt: new Date(),
