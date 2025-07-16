@@ -20,7 +20,7 @@ const Footer = () => {
       className="px-4 pt-10 pb-6 md:px-10"
       style={{ backgroundColor: "#EA580C" }}
     >
-      <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl md:grid-cols-2">
         {/* Logo & About */}
         <div>
           <div className="flex items-center gap-2 mb-4 text-3xl font-extrabold text-white">
