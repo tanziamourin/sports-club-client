@@ -93,12 +93,13 @@ await axiosSecure.post("/users", userInfo);
 
       navigate(from);
     } catch (error) {
-      Swal.fire({
-        title: "Error",
-        text: error.message,
+      console.log(error)
+      // Swal.fire({
+      //   title: "Error",
+      //   text: error.message,
         
-        imageWidth: 140,
-      });
+      //   imageWidth: 140,
+      // });
     }
   };
 
