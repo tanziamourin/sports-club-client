@@ -16,7 +16,7 @@ const SocialLogin = () => {
       Swal.fire({
         title: "🎉 Welcome!",
         text: `Signed in as ${result?.user?.displayName || "User"}`,
-        imageUrl: "https://i.ibb.co/Y3DgP8B/party-parrot.gif",
+      
         imageWidth: 120,
         imageHeight: 120,
         showConfirmButton: false,
@@ -28,7 +28,7 @@ const SocialLogin = () => {
       Swal.fire({
         title: "🚫 Google Sign-In Failed",
         text: err.message || "Please try again.",
-        imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+        
         imageWidth: 120,
         imageHeight: 120,
         confirmButtonText: "OK",

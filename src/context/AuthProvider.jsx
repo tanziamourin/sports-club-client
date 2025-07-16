@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { auth } from "../firebase/firebase.init";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "./AuthContext";
+import Swal from "sweetalert2";
 
 const provider = new GoogleAuthProvider();
 
@@ -20,14 +21,47 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+  // ✅ Save new user in DB and show Swal alert
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
+    setLoading(false);
 
-    return () => unsubscribe();
-  }, []);
+    if (currentUser?.email) {
+      try {
+        const res = await axiosSecure.post("/users", {
+          name: currentUser.displayName || "Unnamed",
+          email: currentUser.email,
+          image: currentUser.photoURL || "",
+        });
+
+        if (res.status === 201) {
+          Swal.fire({
+            icon: "success",
+            title: "🎉 Welcome!",
+            text: "Your account has been created.",
+            confirmButtonColor: "#16a34a",
+          });
+        }
+      } catch (err) {
+        if (err.response?.status === 409) {
+          // User already exists — skip alert
+          console.log("User already exists.");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops!",
+            text: "Something went wrong while saving user.",
+            confirmButtonColor: "#dc2626",
+          });
+        }
+      }
+    }
+  });
+
+  return () => unsubscribe();
+}, [axiosSecure]);
+
 
   const {
     data: role = "",

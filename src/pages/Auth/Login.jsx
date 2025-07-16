@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 
 import Swal from "sweetalert2";
 import Lottie from "lottie-react";
-import loginAnimation from "../../assets/login with account.json"; // replace with your .json path
+import loginAnimation from "../../assets/login with account.json"; 
 import SocialLogin from "./SocialLogin";
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
         Swal.fire({
           title: "🎉 Login Successful",
           text: `Welcome back, ${result.user.displayName || "User"}!`,
-          imageUrl: "https://i.ibb.co/5cYwv9K/login.gif",
+         
           imageWidth: 150,
           imageHeight: 150,
           showConfirmButton: false,
@@ -37,7 +37,7 @@ const Login = () => {
         Swal.fire({
           title: "🚫 Login Failed",
           text: error.message,
-          imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+          
           imageWidth: 140,
           imageHeight: 140,
         });

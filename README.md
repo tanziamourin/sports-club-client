@@ -1,12 +1,47 @@
-# React + Vite
+Live URL: https://sports-club-app.vercel.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🖥️ Client Side (/client)
 
-Currently, two official plugins are available:
+🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+User Authentication via Firebase (Email/Password + Google Login).
 
-## Expanding the ESLint configuration
+Lottie Animations for engaging visuals.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+SweetAlert2 for user-friendly alerts.
+
+Dark/Light Theme toggle with CSS Variables.
+
+Court Listings with booking modals and session slots.
+
+Responsive Layout (mobile-first design).
+
+Protected Routes (e.g., dashboard, booking pages).
+
+Framer Motion animations for smooth transitions.
+
+React Router DOM for route navigation.
+
+Role-Based Dashboards for admin, members, and regular users.
+
+🔧 Tech Stack
+
+React
+
+Tailwind CSS
+
+React Hook Form
+
+React Router DOM
+
+Firebase Auth
+
+React Query / Axios
+
+Lottie / SweetAlert2
+
+🔐 Admin Login
+
+Email: tanzia@gmail.com
+
+Password: Abcdef1

@@ -84,7 +84,7 @@ const Register = () => {
       Swal.fire({
         title: "🎉 Registered!",
         text: "Account created successfully!",
-        imageUrl: "https://i.ibb.co/Y3DgP8B/party-parrot.gif",
+       
         imageWidth: 120,
         showConfirmButton: false,
         timer: 2500,
@@ -95,7 +95,7 @@ const Register = () => {
       Swal.fire({
         title: "Error",
         text: error.message,
-        imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+        
         imageWidth: 140,
       });
     }
