@@ -78,8 +78,9 @@ const Register = () => {
         role: "user",
         createdAt: new Date(),
       };
-
-      await axiosSecure.post("/users", userInfo);
+      
+console.log("👉 userInfo sending to backend:", userInfo);
+await axiosSecure.post("/users", userInfo);
 
       Swal.fire({
         title: "🎉 Registered!",
