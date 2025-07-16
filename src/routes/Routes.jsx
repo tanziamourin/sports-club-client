@@ -4,7 +4,6 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
-
 // Public Pages
 import Home from "../pages/CommonPages/Home";
 import Courts from "../pages/Courts/Courts";
@@ -64,14 +63,13 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-
-         {
+      {
         index: true, // /dashboard route
         element: <WelcomePage />,
       },
       // 🟢 User Routes
       { path: "user/profile", element: <UserProfile /> },
-   
+
       { path: "user/announcements", element: <UserAnnouncements /> },
       { path: "user/pending", element: <PendingBookings /> },
 
@@ -127,9 +125,15 @@ const router = createBrowserRouter([
         ),
       },
       {
-  path: "/dashboard/admin/courts/edit/:id",
-  element: <PrivateRoute><AdminRoute><EditCourt /></AdminRoute></PrivateRoute>, // or your auth wrapper
-},
+        path: "/dashboard/admin/courts/edit/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <EditCourt />
+            </AdminRoute>
+          </PrivateRoute>
+        ), // or your auth wrapper
+      },
       {
         path: "admin/confirmed",
         element: (
@@ -170,93 +174,79 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-  {
-    path: "member/profile",
-    element: (
-      <PrivateRoute>
-        <MemberRoute>
-          <MemberProfile />
-        </MemberRoute>
-      </PrivateRoute>
-    ),
-  },
- { path: "member/pending", 
-  element:(
-    <PrivateRoute>
-      <MemberRoute>
- <MemberPendingBookings />
-      </MemberRoute>
-    </PrivateRoute>
-  ) },
-  {
-    path: "member/approved",
-    element:(
-    <PrivateRoute>
-      <MemberRoute>
- <ApprovedBookings /> 
-      </MemberRoute>
-    </PrivateRoute>
-  )
-  },
-    {
-    path: "member/confirmed",
-    element:(
-    <PrivateRoute>
-      <MemberRoute>
-<ConfirmedBookings />
-      </MemberRoute>
-    </PrivateRoute>
-  )
-  },
-    {
-    path: "member/payment/:id",
-    element:(
-    <PrivateRoute>
-      <MemberRoute>
- <PaymentPage />
-      </MemberRoute>
-    </PrivateRoute>
-  )
-  },
-     {
-    path: "member/history",
-    element:(
-    <PrivateRoute>
-      <MemberRoute>
- <PaymentHistory />
-      </MemberRoute>
-    </PrivateRoute>
-  )
-  },
-       {
-    path: "member/announcements",
-    element:(
-    <PrivateRoute>
-      <MemberRoute>
- <MemberAnnouncements />
-      </MemberRoute>
-    </PrivateRoute>
-  )
-  },
-
-
+      {
+        path: "member/profile",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <MemberProfile />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/pending",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <MemberPendingBookings />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/approved",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <ApprovedBookings />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/confirmed",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <ConfirmedBookings />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/payment/:id",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <PaymentPage />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/history",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <PaymentHistory />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "member/announcements",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <MemberAnnouncements />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
-  // 🔶 Member Dashboard Separate Layout
 
-
-
-
-  //   children: [
-    
-  //    ,
-  //     { path: "approved", element: },
-  //     { path: "confirmed", element:  },
-  //     { path: "payment/:id", element: },
-  //     { path: "history", element: },
-  //     { path: "announcements", element: },
-  //   ],
-  // },
   {
     path: "*",
     element: <NotFound />,

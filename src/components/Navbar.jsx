@@ -1,7 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiX, FiLogOut, FiChevronDown } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 
@@ -25,26 +27,26 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      <NavLink to="/" className={navLinkClass}>
+      <NavLink to="/" className={navLinkClass} onClick={() => setMobileMenuOpen(false)}>
         Home
       </NavLink>
-      <NavLink to="/courts" className={navLinkClass}>
+      <NavLink to="/courts" className={navLinkClass} onClick={() => setMobileMenuOpen(false)}>
         Courts
       </NavLink>
+      <ThemeToggle />
       {!user && (
-        <NavLink to="/login" className={navLinkClass}>
+        <NavLink to="/login" className={navLinkClass} onClick={() => setMobileMenuOpen(false)}>
           Login
         </NavLink>
       )}
-      <ThemeToggle></ThemeToggle>
     </>
   );
 
   return (
-    <header className="border-b shadow ">
+    <header className="border-b shadow">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
-        <Logo></Logo>
+        <Logo />
 
         {/* Desktop Nav */}
         <nav className="items-center hidden gap-6 md:flex">
@@ -52,7 +54,7 @@ const Navbar = () => {
 
           {/* Profile Dropdown */}
           {user && (
-            <div className="relative">
+            <div className="relative text-[var(--color-background)]">
               <button
                 onClick={toggleDropdown}
                 className="flex items-center gap-2"
@@ -71,17 +73,22 @@ const Navbar = () => {
                   </p>
                   <Link
                     to="/dashboard"
-                    onClick={() => setDropdownOpen(false)}
-                    className="block text-primary hover:underline"
+                    onClick={() => {
+                      toggleDropdown();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="ml-5 w-[25] px-4 py-2 font-medium transition-all duration-200 rounded-md btn-primary hover:underline"
                   >
                     Dashboard
                   </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="text-red-600 hover:underline"
-                  >
-                    Logout
-                  </button>
+                  <div className="p-6 border-t border-white/20">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+                    >
+                      <FiLogOut /> Logout
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -97,32 +104,61 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="px-4 py-4 space-y-2 bg-white border-t border-gray-200 md:hidden">
-          {navLinks}
-          {user && (
-            <div className="pt-4 mt-4 space-y-1 border-t">
-              <p className="text-sm text-textSecondary">
-                {user.displayName || user.email}
-              </p>
-              <Link
-                to="/dashboard"
-                onClick={toggleMobileMenu}
-                className="block text-primary hover:underline"
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="text-red-600 hover:underline"
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Mobile Menu with animation and backdrop blur */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ y: -200, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -200, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative z-40 px-4 py-4 space-y-2 border-t border-gray-200 md:hidden backdrop-blur-md bg-[var(--color-secondary)]/90"
+          >
+            <div className="flex gap-x-3">{navLinks}</div>
+
+            {user && (
+              <div className="relative  text-[var(--color-background)]">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center gap-2"
+                >
+                  <img
+                    src={user.photoURL || "/default-avatar.png"}
+                    alt="user"
+                    className="object-cover border-2 rounded-full w-9 h-9 border-primary"
+                  />
+                  <FiChevronDown className="text-gray-500" />
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute left-0 z-50 w-48 p-4 mt-2 space-y-2 bg-white rounded-md shadow-lg text-textPrimary">
+                    <p className="text-sm font-semibold">
+                      {user.displayName || user.email}
+                    </p>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => {
+                        toggleDropdown();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="ml-5 w-[25] px-4 py-2 font-medium transition-all duration-200 rounded-md btn-primary hover:underline"
+                    >
+                      Dashboard
+                    </Link>
+                    <div className="p-6 border-t border-white/20">
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+                      >
+                        <FiLogOut /> Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
