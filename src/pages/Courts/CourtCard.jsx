@@ -17,11 +17,11 @@ const CourtCard = ({ court }) => {
   };
 
   return (
-    <div className="shadow-md card bg-base-100">
+    <div className="shadow-md card ">
       <figure>
         <img src={court.image} alt={court.name} className="object-cover w-full h-40" />
       </figure>
-      <div className="card-body">
+      <div className="card-body  text-[var(--color-text-primarys)]">
         <h2 className="text-lg font-semibold">{court.name}</h2>
         <p>Type: {court.type}</p>
         <p>Price: ${court.price}</p>

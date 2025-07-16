@@ -98,7 +98,7 @@ const PaymentForm = ({ booking }) => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md p-4 mx-auto space-y-4 bg-white rounded shadow">
-      <h2 className="mb-2 text-xl font-bold">Payment Form</h2>
+      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Payment Form</h2>
 
       {/* Coupon Apply */}
       <div className="flex items-center gap-2">

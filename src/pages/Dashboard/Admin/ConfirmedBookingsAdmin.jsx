@@ -9,18 +9,19 @@ const ConfirmedBookingsAdmin = () => {
   const { data: bookings = [], isLoading } = useQuery({
     queryKey: ["confirmed-bookings"],
     queryFn: async () => {
-    const res = await axiosSecure.get("/admin/bookings/confirmed");
+      const res = await axiosSecure.get("/admin/bookings/confirmed");
       return res.data;
-    }
+    },
   });
-const filtered = bookings.filter((b) =>
-  b.courtType?.toLowerCase().includes(search.toLowerCase())
-);
-
+  const filtered = bookings.filter((b) =>
+    b.courtType?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="p-4">
-      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">All Confirmed Bookings</h2>
+      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">
+        All Confirmed Bookings
+      </h2>
 
       <input
         type="text"
@@ -47,15 +48,17 @@ const filtered = bookings.filter((b) =>
                 <th>Price</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-[var(--color-text-primarys)] " >
               {filtered.map((b) => (
-                <tr key={b._id}>
-              <td>{b.userName || b.name}</td>
-<td>{b.userEmail || b.email}</td>
-<td>{b.courtType || b.court}</td>
-<td>{b.date}</td>
-<td>{Array.isArray(b.slots) ? b.slots.join(", ") : b.slot}</td>
-<td>${b.price}</td>
+                <tr className="border border-gray-300" key={b._id}>
+                  <td className="">{b.userName || b.name}</td>
+                  <td>{b.userEmail || b.email}</td>
+                  <td>{b.courtType || b.court}</td>
+                  <td>{b.date}</td>
+                  <td>
+                    {Array.isArray(b.slots) ? b.slots.join(", ") : b.slot}
+                  </td>
+                  <td>${b.price}</td>
                 </tr>
               ))}
             </tbody>

@@ -90,12 +90,12 @@ const ManageMembers = () => {
 
   return (
     <motion.div
-      className="p-4"
+      className="p-4 "
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="mb-8 text-4xl font-bold my-11">All Club Members</h2>
+      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">All Club Members</h2>
 
       <input
         type="text"
@@ -138,7 +138,7 @@ const ManageMembers = () => {
                     scale: 1.015,
                     backgroundColor: "#f3f4f6",
                   }}
-                  className="transition-all duration-200"
+                  className="transition-all  border border-gray-300 text-[var(--color-text-primarys)] duration-200"
                 >
                   <td>
                     <Avatar

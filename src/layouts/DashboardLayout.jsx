@@ -65,7 +65,7 @@ const DashboardLayout = () => {
           {renderLink("/", <FiHome />, "Home")}
           {renderLink("/dashboard/user/profile", <FiUser />, "My Profile")}
           {renderLink("/dashboard/user/pending", <FiBook />, "Pending Bookings")}
-          {renderLink("/dashboard/user/bookings", <FiList />, "Bookings")}
+          
           {renderLink("/dashboard/user/announcements", <FiBell />, "Announcements")}
         </>
       );

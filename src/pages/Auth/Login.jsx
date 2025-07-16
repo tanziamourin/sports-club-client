@@ -1,76 +1,105 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/useAuth';
-import SocialLogin from './SocialLogin';
-import toast from 'react-hot-toast'; // optional if using react-hot-toast
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+
+import Swal from "sweetalert2";
+import Lottie from "lottie-react";
+import loginAnimation from "../../assets/login with account.json"; // replace with your .json path
+import SocialLogin from "./SocialLogin";
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { signIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from || '/';
+  const from = location.state?.from || "/";
 
   const onSubmit = (data) => {
-    console.log("Form data:", data); // ✅ debug
-
     signIn(data.email, data.password)
-      .then(result => {
-        console.log("Login success:", result.user);
-        toast.success('Login successful'); // optional
+      .then((result) => {
+        Swal.fire({
+          title: "🎉 Login Successful",
+          text: `Welcome back, ${result.user.displayName || "User"}!`,
+          imageUrl: "https://i.ibb.co/5cYwv9K/login.gif",
+          imageWidth: 150,
+          imageHeight: 150,
+          showConfirmButton: false,
+          timer: 2000,
+        });
         navigate(from);
       })
-      .catch(error => {
-        console.error("Login error:", error);
-        const errorCode = error.code;
-
-        if (errorCode === "auth/user-not-found") {
-          alert("No user found with this email");
-          toast.error("No user found with this email");
-        } else if (errorCode === "auth/wrong-password") {
-          alert("Incorrect password");
-          toast.error("Incorrect password");
-        } else if (errorCode === "auth/invalid-email") {
-          alert("Invalid email address");
-          toast.error("Invalid email address");
-        } else {
-          alert("Login failed. Try again.");
-          toast.error("Login failed. Try again.");
-        }
+      .catch((error) => {
+        Swal.fire({
+          title: "🚫 Login Failed",
+          text: error.message,
+          imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+          imageWidth: 140,
+          imageHeight: 140,
+        });
       });
   };
 
   return (
-    <div className="w-full max-w-sm shadow-2xl card bg-base-100 shrink-0">
-      <div className="card-body">
-        <h1 className="text-5xl font-bold">Please Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label className="label">Email</label>
-          <input
-            type="email"
-            {...register('email', { required: true })}
-            className="input"
-            placeholder="Email"
-          />
-          {errors.email && <p className='text-red-500'>Enter a valid email</p>}
+    <div className="flex flex-col items-center justify-center min-h-screen gap-10 px-4 py-10 md:flex-row bg-[var(--color-background)]">
+      <div className="w-full max-w-md md:w-1/2">
+        <Lottie animationData={loginAnimation} loop />
+      </div>
 
-          <label className="label">Password</label>
-          <input
-            type="password"
-            {...register('password', { required: true, minLength: 6 })}
-            className="input"
-            placeholder="Password"
-          />
-          {errors.password && <p className='text-red-500'>Password must be 6 characters or more</p>}
+      <div className="w-full max-w-sm p-6 bg-white shadow-2xl card dark:bg-gray-900 dark:text-white">
+        <div className="card-body">
+          <h1 className="text-4xl font-bold text-[var(--color-primary)]">
+            Please Login
+          </h1>
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
+            <div>
+              <label className="label">Email</label>
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                className="w-full input input-bordered"
+                placeholder="Email"
+              />
+              {errors.email && (
+                <p className="text-red-500">Enter a valid email</p>
+              )}
+            </div>
 
-          <button className="mt-4 text-black btn btn-primary">Login</button>
-        </form>
+            <div>
+              <label className="label">Password</label>
+              <input
+                type="password"
+                {...register("password", { required: true, minLength: 6 })}
+                className="w-full input input-bordered"
+                placeholder="Password"
+              />
+              {errors.password && (
+                <p className="text-red-500">Minimum 6 characters</p>
+              )}
+            </div>
 
-        <p><small>New to this website? <Link to="/register" className="btn btn-link">Register</Link></small></p>
+            <button className="w-full mt-2 btn bg-[var(--color-primary)] text-white hover:bg-orange-700">
+              Login
+            </button>
+          </form>
 
-        <div className="divider">OR</div>
-        <SocialLogin />
+          <p className="mt-4 text-sm text-[var(--color-text-primarys)] text-center">
+            New here?
+            <Link
+              to="/register"
+              className="ml-1 font-semibold text-[var(--color-primary)] hover:underline"
+            >
+              Register
+            </Link>
+          </p>
+
+          <div className="divider text-[var(--color-text-primarys)]">OR</div>
+          <SocialLogin />
+        </div>
       </div>
     </div>
   );

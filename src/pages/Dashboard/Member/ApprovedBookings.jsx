@@ -36,15 +36,15 @@ const ApprovedBookings = () => {
   if (isLoading) return <p>Loading approved bookings...</p>;
 
   return (
-    <div>
-      <h2 className="mb-4 text-2xl font-bold">Approved Bookings</h2>
+    <div className="mt-20">
+      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Approved Bookings</h2>
 
       {approved.length === 0 ? (
         <p>No approved bookings found.</p>
       ) : (
         <div className="grid gap-4">
           {approved.map((booking) => (
-            <div key={booking._id} className="p-4 bg-white rounded shadow">
+            <div key={booking._id} className="p-4 bg-white  text-[var(--color-text-primarys)] rounded shadow">
               <p><strong>Court:</strong> {booking.courtType}</p>
               <p><strong>Slot:</strong> {booking.slot}</p>
               <p><strong>Date:</strong> {booking.date}</p>

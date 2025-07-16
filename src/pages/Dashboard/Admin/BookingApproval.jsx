@@ -72,7 +72,7 @@ const BookingApproval = () => {
                     scale: 1.015,
                     backgroundColor: "#f3f4f6",
                   }}
-                  className="transition-all duration-200"
+                  className="transition-all border border-gray-300 text-[var(--color-text-primarys)] duration-200"
                 >
                   <td>{b.
 userEmail}</td>

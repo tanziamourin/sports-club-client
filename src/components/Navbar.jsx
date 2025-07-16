@@ -2,6 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -23,11 +25,18 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      <NavLink to="/" className={navLinkClass}>Home</NavLink>
-      <NavLink to="/courts" className={navLinkClass}>Courts</NavLink>
+      <NavLink to="/" className={navLinkClass}>
+        Home
+      </NavLink>
+      <NavLink to="/courts" className={navLinkClass}>
+        Courts
+      </NavLink>
       {!user && (
-        <NavLink to="/login" className={navLinkClass}>Login</NavLink>
+        <NavLink to="/login" className={navLinkClass}>
+          Login
+        </NavLink>
       )}
+      <ThemeToggle></ThemeToggle>
     </>
   );
 
@@ -35,9 +44,7 @@ const Navbar = () => {
     <header className="border-b shadow ">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
-        <h2 to="/" className="flex items-center gap-2 text-3xl font-extrabold ">
-          🏸 <span className="">Sports </span><span className="text-[var(--color-accent)]" > Club</span>
-        </h2>
+        <Logo></Logo>
 
         {/* Desktop Nav */}
         <nav className="items-center hidden gap-6 md:flex">
@@ -46,7 +53,10 @@ const Navbar = () => {
           {/* Profile Dropdown */}
           {user && (
             <div className="relative">
-              <button onClick={toggleDropdown} className="flex items-center gap-2">
+              <button
+                onClick={toggleDropdown}
+                className="flex items-center gap-2"
+              >
                 <img
                   src={user.photoURL || "/default-avatar.png"}
                   alt="user"
@@ -56,11 +66,20 @@ const Navbar = () => {
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 z-50 w-48 p-4 mt-2 space-y-2 bg-white rounded-md shadow-lg text-textPrimary">
-                  <p className="text-sm font-semibold">{user.displayName || user.email}</p>
-                  <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="block text-primary hover:underline">
+                  <p className="text-sm font-semibold">
+                    {user.displayName || user.email}
+                  </p>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setDropdownOpen(false)}
+                    className="block text-primary hover:underline"
+                  >
                     Dashboard
                   </Link>
-                  <button onClick={handleLogout} className="text-red-600 hover:underline">
+                  <button
+                    onClick={handleLogout}
+                    className="text-red-600 hover:underline"
+                  >
                     Logout
                   </button>
                 </div>
@@ -70,7 +89,10 @@ const Navbar = () => {
         </nav>
 
         {/* Mobile Toggle */}
-        <button onClick={toggleMobileMenu} className="text-2xl md:hidden text-primary">
+        <button
+          onClick={toggleMobileMenu}
+          className="text-2xl md:hidden text-primary"
+        >
           {mobileMenuOpen ? <FiX /> : <FiMenu />}
         </button>
       </div>
@@ -81,11 +103,22 @@ const Navbar = () => {
           {navLinks}
           {user && (
             <div className="pt-4 mt-4 space-y-1 border-t">
-              <p className="text-sm text-textSecondary">{user.displayName || user.email}</p>
-              <Link to="/dashboard" onClick={toggleMobileMenu} className="block text-primary hover:underline">
+              <p className="text-sm text-textSecondary">
+                {user.displayName || user.email}
+              </p>
+              <Link
+                to="/dashboard"
+                onClick={toggleMobileMenu}
+                className="block text-primary hover:underline"
+              >
                 Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-red-600 hover:underline">Logout</button>
+              <button
+                onClick={handleLogout}
+                className="text-red-600 hover:underline"
+              >
+                Logout
+              </button>
             </div>
           )}
         </div>

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const SocialLogin = () => {
   const { signInWithGoogle } = useContext(AuthContext);
@@ -12,11 +11,28 @@ const SocialLogin = () => {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      await signInWithGoogle();
-      toast.success("Signed in with Google!");
+      const result = await signInWithGoogle();
+
+      Swal.fire({
+        title: "🎉 Welcome!",
+        text: `Signed in as ${result?.user?.displayName || "User"}`,
+        imageUrl: "https://i.ibb.co/Y3DgP8B/party-parrot.gif",
+        imageWidth: 120,
+        imageHeight: 120,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
       navigate("/");
     } catch (err) {
-      toast.error("Google sign-in failed");
+      Swal.fire({
+        title: "🚫 Google Sign-In Failed",
+        text: err.message || "Please try again.",
+        imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+        imageWidth: 120,
+        imageHeight: 120,
+        confirmButtonText: "OK",
+      });
       console.error("❌ Google sign-in failed:", err);
     } finally {
       setLoading(false);
@@ -28,7 +44,7 @@ const SocialLogin = () => {
       <button
         onClick={handleGoogleSignIn}
         disabled={loading}
-        className="w-full btn btn-outline"
+        className="w-full p-3 rounded btn-primary btn-outline"
       >
         {loading ? "Signing in..." : "Sign in with Google"}
       </button>

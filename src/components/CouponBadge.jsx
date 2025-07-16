@@ -10,15 +10,15 @@ const CouponBadge = ({ code, discount }) => {
       viewport={{ once: true }}
       className="px-6 py-4 text-center border-2 border-dashed shadow-md rounded-xl"
       style={{
-        borderColor: 'var(--color-accent)',
-        backgroundColor: 'white',
-        minWidth: '200px',
+        borderColor: "var(--color-accent)",
+        backgroundColor: "white",
+        minWidth: "200px",
         // marginTop:'20px'
       }}
     >
       <h4
         className="mb-2 text-lg font-bold"
-        style={{ color: 'var(--color-primary)' }}
+        style={{ color: "var(--color-primary)" }}
       >
         {code}
       </h4>

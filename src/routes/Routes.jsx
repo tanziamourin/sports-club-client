@@ -13,7 +13,7 @@ import Register from "../pages/Auth/Register";
 
 // User Dashboard Pages
 import UserProfile from "../pages/Dashboard/User/UserProfile";
-import UserBookings from "../pages/Dashboard/User/UserBookings";
+
 import UserAnnouncements from "../pages/Dashboard/User/UserAnnouncements";
 import PendingBookings from "../pages/Dashboard/User/PendingBookings";
 
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       },
       // 🟢 User Routes
       { path: "user/profile", element: <UserProfile /> },
-      { path: "user/bookings", element: <UserBookings /> },
+   
       { path: "user/announcements", element: <UserAnnouncements /> },
       { path: "user/pending", element: <PendingBookings /> },
 

@@ -20,12 +20,12 @@ const ConfirmedBookings = () => {
   if (isLoading) return <p>Loading confirmed bookings...</p>;
 
   return (
-    <div>
-      <h2 className="mb-4 text-2xl font-bold">Confirmed Bookings</h2>
+    <div className="mt-20">
+      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Confirmed Bookings</h2>
       {bookings.length === 0 ? (
         <p>No confirmed bookings yet.</p>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid  text-[var(--color-text-primarys)] gap-4">
           {bookings.map((b) => (
             <div key={b._id} className="p-4 bg-white rounded shadow">
               <p><strong>Court:</strong> {b.court || b.courtType || "N/A"}</p>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 const BookingModal = ({ court, isOpen, onClose }) => {
   const { user } = useContext(AuthContext);
@@ -69,67 +70,69 @@ const BookingModal = ({ court, isOpen, onClose }) => {
 
   const closeSuccessModal = () => {
     setShowSuccess(false);
-    onClose(); // close main modal too
+    onClose();
   };
 
   return (
     <>
+      {/* Booking Modal */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={onClose}>
           <div className="fixed inset-0 bg-black/40" />
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
-              <Dialog.Title className="mb-4 text-2xl font-bold text-gray-800">
+            <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-[var(--color-background)] shadow-xl rounded-xl border border-orange-200">
+              <Dialog.Title className="mb-4 text-2xl font-bold text-[var(--color-primary)]">
                 Book {court.type}
               </Dialog.Title>
 
               <form onSubmit={handleBooking} className="space-y-4">
+                {/* Date Input */}
                 <div>
-                  <label className="block mb-1 text-sm font-medium">Date</label>
-                  <input
-                    type="date"
-                    className="w-full input input-bordered"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                  />
+                  <label className="block mb-1 text-sm font-medium  text-[var(--color-primary)]">Date</label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="w-full pr-10   text-[var(--color-primary)] input input-bordered"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      required
+                    />
+                    {/* <span className="absolute text-lg text-gray-400 -translate-y-1/2 right-3 top-1/2">📅</span> */}
+                  </div>
                 </div>
 
+                {/* Slot Selection */}
                 <div>
-                  <label className="block mb-1 text-sm font-medium">Select Slots</label>
-                  <div className="flex flex-col gap-2">
+                  <label className="block mb-1 text-sm font-medium  text-[var(--color-primary)]">Select Slots</label>
+                  <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-40">
                     {court.slots.map((slot) => (
-                      <label key={slot} className="flex items-center gap-2">
+                      <label key={slot} className="flex items-center gap-2 text-sm cursor-pointer">
                         <input
                           type="checkbox"
                           value={slot}
                           checked={slots.includes(slot)}
                           onChange={handleSlotChange}
-                          className="checkbox checkbox-sm"
+                          className="checkbox checkbox-primary"
                         />
-                        {slot}
+                        <span>{slot}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
-                    Price per slot: <strong>${court.price}</strong>
-                  </p>
-                  <p className="text-sm font-medium text-gray-600">
-                    Selected slots: <strong>{slots.length}</strong>
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">
-                    Total Price: <strong>${totalPrice}</strong>
-                  </p>
+                {/* Pricing Summary */}
+                <div className="space-y-1 text-sm  text-[var(--color-primary)]">
+                  <p>💰 Price per slot: <strong>${court.price}</strong></p>
+                  <p>🕒 Selected slots: <strong>{slots.length}</strong></p>
+                  <p>Total Price: <strong className="text-[var(--color-primary)]">${totalPrice}</strong></p>
                 </div>
 
-                <div className="flex justify-end gap-2">
+                {/* Buttons */}
+                <div className="flex justify-end gap-2 mt-4">
                   <button type="button" onClick={onClose} className="btn">
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn bg-[var(--color-primary)] text-white hover:bg-orange-700">
                     Submit Booking
                   </button>
                 </div>
@@ -144,12 +147,13 @@ const BookingModal = ({ court, isOpen, onClose }) => {
         <Dialog as="div" className="relative z-50" onClose={closeSuccessModal}>
           <div className="fixed inset-0 bg-black/40" />
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <Dialog.Panel className="w-full max-w-sm p-6 text-center bg-white shadow-lg rounded-xl">
-              <h2 className="mb-2 text-2xl font-bold text-green-600">Booking Successful!</h2>
+            <Dialog.Panel className="w-full max-w-sm p-6 text-center bg-white border border-green-200 shadow-lg rounded-xl animate__animated animate__fadeInDown">
+              <CheckCircleIcon className="w-12 h-12 mx-auto mb-3 text-green-500" />
+              <h2 className="mb-2 text-xl font-bold text-green-600">Booking Successful!</h2>
               <p className="mb-4 text-gray-600">
                 Your booking request has been sent for admin approval.
               </p>
-              <button onClick={closeSuccessModal} className="w-full btn btn-success">
+              <button onClick={closeSuccessModal} className="w-full text-white bg-green-500 btn hover:bg-green-600">
                 Close
               </button>
             </Dialog.Panel>

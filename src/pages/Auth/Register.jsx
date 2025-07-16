@@ -1,185 +1,182 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import useAuth from '../../hooks/useAuth';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import SocialLogin from './SocialLogin';
-import Swal from 'sweetalert2'; // ✅ Import Swal
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import Lottie from "lottie-react";
+import registerAnimation from "../../assets/Paper.json"; // replace with your .json
+import SocialLogin from "./SocialLogin";
 
 const Register = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { createUser, updateUserProfile } = useAuth();
   const axiosSecure = useAxiosSecure();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location?.state?.from || '/';
+  const from = location?.state?.from || "/";
 
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // ✅ Handle image upload to imgbb
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
     const formData = new FormData();
-    formData.append('image', image);
-
+    formData.append("image", image);
     setUploading(true);
+
     try {
-      const uploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
+      const uploadUrl = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_image_upload_key
+      }`;
       const res = await axios.post(uploadUrl, formData);
       setProfilePic(res.data.data.url);
-
       Swal.fire({
-        icon: 'success',
-        title: 'Image Uploaded',
-        text: 'Profile picture uploaded successfully!',
-        timer: 2000,
+        title: "✅ Uploaded",
+        text: "Profile picture uploaded successfully!",
+        icon: "success",
+        timer: 1500,
         showConfirmButton: false,
       });
     } catch (err) {
-      console.error('Image upload error:', err);
+      console.log(err)
       Swal.fire({
-        icon: 'error',
-        title: 'Upload Failed',
-        text: 'Could not upload image. Please try again.',
+        title: "Upload Failed",
+        text: "Try again",
+        icon: "error",
       });
     } finally {
       setUploading(false);
     }
   };
 
-  // ✅ Submit handler
   const onSubmit = async (data) => {
     if (uploading) {
       Swal.fire({
-        icon: 'info',
-        title: 'Please wait',
-        text: 'Image is still uploading...',
+        icon: "info",
+        title: "Please wait",
+        text: "Image is uploading...",
       });
       return;
     }
 
     try {
       const result = await createUser(data.email, data.password);
-      if (!result?.user) return;
 
-      await updateUserProfile({
-        displayName: data.name,
-        photoURL: profilePic,
-      });
+      console.log(result);
+      await updateUserProfile({ displayName: data.name, photoURL: profilePic });
 
       const userInfo = {
         name: data.name,
         email: data.email,
         image: profilePic || "https://i.ibb.co/zfvpZf8/default-user.png",
-        role: 'user',
+        role: "user",
         createdAt: new Date(),
       };
 
-      await axiosSecure.post('/users', userInfo);
+      await axiosSecure.post("/users", userInfo);
 
       Swal.fire({
-        icon: 'success',
-        title: 'Registration Successful',
-        text: 'Welcome to the club!',
-        timer: 2000,
+        title: "🎉 Registered!",
+        text: "Account created successfully!",
+        imageUrl: "https://i.ibb.co/Y3DgP8B/party-parrot.gif",
+        imageWidth: 120,
         showConfirmButton: false,
+        timer: 2500,
       });
 
       navigate(from);
     } catch (error) {
-      console.error('Registration error:', error);
       Swal.fire({
-        icon: 'error',
-        title: 'Registration Failed',
-        text: error.message || 'Something went wrong!',
+        title: "Error",
+        text: error.message,
+        imageUrl: "https://i.ibb.co/2qj9rF9/error-cat.gif",
+        imageWidth: 140,
       });
     }
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto my-10 shadow-2xl card bg-base-100 shrink-0">
-      <div className="card-body">
-        <h1 className="mb-4 text-3xl font-bold text-center">Create Account</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-10 gap-10 md:flex-row bg-[var(--color-background)]">
+      <div className="w-full max-w-md md:w-1/2">
+        <Lottie animationData={registerAnimation} loop />
+      </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Name */}
-          <label className="label">Your Name</label>
-          <input
-            type="text"
-            {...register('name', { required: true })}
-            className="w-full input input-bordered"
-            placeholder="Your Name"
-          />
-          {errors.name && <p className="text-sm text-red-500">Name is required</p>}
+      <div className="w-full max-w-sm p-6 bg-white shadow-2xl card dark:bg-gray-900 dark:text-white">
+        <div className="card-body">
+          <h1 className="text-3xl font-bold text-center text-[var(--color-primary)]">
+            Create Account
+          </h1>
 
-          {/* Profile Picture */}
-          <label className="label">Profile Picture</label>
-          <input
-            type="file"
-            onChange={handleImageUpload}
-            className="w-full file-input file-input-bordered"
-          />
-
-          {/* Preview */}
-          {profilePic && (
-            <img
-              src={profilePic}
-              alt="Preview"
-              className="w-20 h-20 mx-auto my-2 border rounded-full"
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
+            <input
+              type="text"
+              {...register("name", { required: true })}
+              placeholder="Name"
+              className="w-full input input-bordered"
             />
-          )}
+            {errors.name && (
+              <p className="text-sm text-red-500">Name is required</p>
+            )}
 
-          {/* Email */}
-          <label className="label">Email</label>
-          <input
-            type="email"
-            {...register('email', {
-              required: true,
-              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            })}
-            className="w-full input input-bordered"
-            placeholder="Email"
-          />
-          {errors.email && <p className="text-sm text-red-500">Enter a valid email</p>}
+            <input
+              type="file"
+              onChange={handleImageUpload}
+              className="w-full file-input file-input-bordered"
+            />
+            {profilePic && (
+              <img
+                src={profilePic}
+                className="w-20 h-20 mx-auto my-2 rounded-full"
+              />
+            )}
 
-          {/* Password */}
-          <label className="label">Password</label>
-          <input
-            type="password"
-            {...register('password', {
-              required: true,
-              minLength: 6,
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-            })}
-            className="w-full input input-bordered"
-            placeholder="Password"
-          />
-          {errors.password && (
-            <p className="text-sm text-red-500">
-              Password must be 6+ characters and contain a number
-            </p>
-          )}
+            <input
+              type="email"
+              {...register("email", { required: true })}
+              placeholder="Email"
+              className="w-full input input-bordered"
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">Enter a valid email</p>
+            )}
 
-          <button
-            type="submit"
-            disabled={uploading}
-            className="w-full mt-4 btn btn-primary"
-          >
-            {uploading ? 'Uploading Image...' : 'Register'}
-          </button>
-        </form>
+            <input
+              type="password"
+              {...register("password", { required: true, minLength: 6 })}
+              placeholder="Password"
+              className="w-full input input-bordered"
+            />
+            {errors.password && (
+              <p className="text-sm text-red-500">Minimum 6 characters</p>
+            )}
 
-        <p className="mt-4 text-center">
-          <small>
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-500">Login</Link>
-          </small>
-        </p>
+            <button
+              disabled={uploading}
+              className="btn w-full bg-[var(--color-primary)] text-white hover:bg-orange-700"
+            >
+              {uploading ? "Uploading..." : "Register"}
+            </button>
+          </form>
 
-        <div className="divider">OR</div>
-        <SocialLogin />
+          <p className="mt-4 text-sm text-center text-[var(--color-text-primarys)]">
+            Already have an account?
+            <Link
+              to="/login"
+              className="ml-1 font-semibold text-[var(--color-primary)] hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+
+          <div className="divider text-[var(--color-text-primarys)]">OR</div>
+          <SocialLogin />
+        </div>
       </div>
     </div>
   );

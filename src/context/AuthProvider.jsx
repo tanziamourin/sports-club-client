@@ -24,22 +24,6 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-
-      // if (currentUser) {
-      //   try {
-      //     const userData = {
-      //       name: currentUser.displayName || "Anonymous",
-      //       email: currentUser.email,
-      //       image: currentUser.photoURL || "",
-      //     };
-
-      //     await axiosSecure.post("/users", userData);
-      //   } catch (error) {
-      //     if (error.response?.status !== 409) {
-      //       console.error("User insert failed:", error);
-      //     }
-      //   }
-      // }
     });
 
     return () => unsubscribe();
@@ -88,9 +72,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={authInfo}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };
 

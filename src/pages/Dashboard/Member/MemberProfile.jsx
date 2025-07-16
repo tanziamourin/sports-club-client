@@ -20,19 +20,19 @@ const MemberProfile = () => {
   });
 
   return (
-    <div className="max-w-md p-6 mx-auto space-y-4 bg-white rounded shadow">
+    <div className="max-w-md p-6 mx-auto mt-20 space-y-4 bg-white rounded shadow">
       <div className="text-center">
         <img
           src={user?.photoURL || "https://i.ibb.co/ck1SGFJ/profile-placeholder.png"}
           alt="Profile"
           className="w-24 h-24 mx-auto border rounded-full"
         />
-        <h2 className="mt-2 text-2xl font-bold">{user?.displayName}</h2>
+        <h2 className="mt-2 text-2xl font-bold text-[var(--color-text-primarys)]">{user?.displayName}</h2>
         <p className="text-gray-600">{user?.email}</p>
       </div>
 
       <div className="mt-4 text-center">
-        <p className="text-lg">
+        <p className="text-lg text-[var(--color-text-primarys)]">
           <strong>Member Since:</strong>{" "}
           <span className="font-semibold text-blue-600">
             {memberInfo?.memberSince

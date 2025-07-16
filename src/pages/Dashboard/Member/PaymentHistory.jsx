@@ -25,9 +25,9 @@ const PaymentHistory = () => {
   if (isLoading) return <p>Loading payments...</p>;
 
   return (
-    <div>
+    <div className="mt-20">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">Payment History</h2>
+        <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Payment History</h2>
         <button
           className="btn btn-sm btn-outline"
           onClick={() => setView(view === "table" ? "card" : "table")}
@@ -64,7 +64,7 @@ const PaymentHistory = () => {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {current.map((p) => (
-            <div key={p._id} className="p-4 bg-white rounded shadow">
+            <div key={p._id} className="p-4 bg-white text-[var(--color-text-primarys)] rounded shadow">
               <p><strong>User Email:</strong> {p.userEmail}</p> {/* ✅ Display userEmail */}
               <p><strong>Court:</strong> {p.courtType}</p>
               <p><strong>Amount:</strong> ${p.price}</p>

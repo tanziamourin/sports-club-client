@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import CouponBadge from '../../components/CouponBadge';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import CouponBadge from "../../components/CouponBadge";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Promotions = () => {
   const axiosSecure = useAxiosSecure();
@@ -11,22 +11,21 @@ const Promotions = () => {
     queryFn: async () => {
       const res = await axiosSecure.get("/coupons");
       return res.data;
-    }
+    },
   });
 
   return (
     <section
-      className="px-4 mb-16 py-14 md:px-10"
-      style={{ backgroundColor: 'var(--color-background)' }}
+      className="px-4 mt-2 py-14 md:px-10"
+      style={{ backgroundColor: "var(--color-background)" }}
     >
-      <div className="max-w-6xl mx-auto mb-16 text-center">
-        <h2
-          className="mb-16 text-3xl font-bold md:text-4xl"
-          
-        >
-          🎁 Promotions & Discounts
-        </h2>
-
+      <div className="max-w-6xl mx-auto text-center">
+        <div className="mb-11">
+          <h2 className="text-4xl font-bold text-[var(--color-primary)] text-center mt-10">
+            🎁 Promotions & Discounts
+          </h2>
+          <hr className="w-16 h-1 mx-auto mt-3  mb-10 bg-[var(--color-accent)] rounded" />
+        </div>
         {isLoading ? (
           <p className="text-gray-600">Loading coupons...</p>
         ) : coupons.length === 0 ? (

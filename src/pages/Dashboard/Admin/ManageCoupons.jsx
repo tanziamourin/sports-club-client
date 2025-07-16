@@ -125,14 +125,14 @@ const ManageCoupons = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-[var(--color-text-primarys)]">
             {isLoading ? (
               <tr><td colSpan="3" className="py-6 text-center">Loading...</td></tr>
             ) : coupons.length === 0 ? (
               <tr><td colSpan="3" className="py-6 text-center text-gray-500">No coupons found</td></tr>
             ) : (
               coupons.map(coupon => (
-                <tr key={coupon._id} className="hover:bg-[#FFFAF0] transition-all">
+                <tr key={coupon._id} className=" border border-gray-300 hover:bg-[#FFFAF0] transition-all">
                   <td className="font-medium">{coupon.code}</td>
                   <td>{coupon.discount}%</td>
                   <td className="flex gap-2">

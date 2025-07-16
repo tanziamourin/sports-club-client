@@ -114,9 +114,9 @@ const ManageCourts = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-[var(--color-text-primarys)]">
             {isLoading ? (
-              <tr><td colSpan="6" className="text-center">Loading...</td></tr>
+              <tr className="border border-gray-300"><td colSpan="6" className="text-center">Loading...</td></tr>
             ) : (
               courts.map((court) => (
                 <motion.tr key={court._id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="hover:bg-orange-50">

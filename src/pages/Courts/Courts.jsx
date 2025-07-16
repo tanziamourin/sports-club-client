@@ -21,7 +21,8 @@ const Courts = () => {
   const totalPages = Math.ceil((data?.total || 0) / limit);
 
   if (isLoading) return <p className="p-6">Loading courts...</p>;
-  if (isError || !data || !Array.isArray(data.courts)) return <p className="p-6">No courts found.</p>;
+  if (isError || !data || !Array.isArray(data.courts))
+    return <p className="p-6">No courts found.</p>;
 
   return (
     <div className="p-6">
@@ -36,7 +37,9 @@ const Courts = () => {
           <button
             key={i}
             onClick={() => setPage(i + 1)}
-            className={`btn btn-sm ${page === i + 1 ? "btn-primary" : "btn-outline"}`}
+            className={`btn btn-sm ${
+              page === i + 1 ? "btn-primary" : "btn-outline"
+            }`}
           >
             {i + 1}
           </button>

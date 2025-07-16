@@ -106,7 +106,7 @@ const AllUsers = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                   whileHover={{ scale: 1.01, backgroundColor: "#fff7ed" }}
-                  className="border-b"
+                  className="border-b border border-gray-300 text-[var(--color-text-primarys)]"
                 >
                   <td>
                     <img

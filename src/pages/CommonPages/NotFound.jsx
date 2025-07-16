@@ -1,6 +1,6 @@
-import React from 'react';
-import Lottie from 'lottie-react';
-import notFoundAnimation from '../../assets/Error 404.json'; // adjust the path if needed
+import React from "react";
+import Lottie from "lottie-react";
+import notFoundAnimation from "../../assets/Error 404.json"; // adjust the path if needed
 
 const NotFound = () => {
   return (
@@ -8,7 +8,9 @@ const NotFound = () => {
       <div className="w-full max-w-md mb-6">
         <Lottie animationData={notFoundAnimation} loop autoplay />
       </div>
-      <h2 className="text-4xl font-bold text-[var(--color-primary)] mb-2">Oops! Page Not Found</h2>
+      <h2 className="text-4xl font-bold text-[var(--color-primary)] mb-2">
+        Oops! Page Not Found
+      </h2>
       <p className="text-[var(--color-text-secondary)] text-lg mb-6">
         The page you are looking for doesn’t exist or has been moved.
       </p>

@@ -24,7 +24,14 @@ const ManageAnnouncements = () => {
     mutationFn: async (newData) => await axiosSecure.post("/announcements", newData),
     onSuccess: () => {
       queryClient.invalidateQueries(["announcements"]);
-      Swal.fire("✅ Announcement Added!", "", "success");
+      Swal.fire({
+        title: "🎉 Announcement Added!",
+        text: "Your announcement has been posted.",
+        icon: "success",
+        showClass: { popup: "animate__animated animate__fadeInDown" },
+        hideClass: { popup: "animate__animated animate__fadeOutUp" },
+        confirmButtonColor: "#EA580C",
+      });
       setFormData({ title: "", message: "" });
     },
     onError: () => Swal.fire("❌ Failed to add announcement", "", "error"),
@@ -38,33 +45,14 @@ const ManageAnnouncements = () => {
     },
   });
 
-const handleAdd = async (e) => {
-  e.preventDefault();
-  if (!formData.title || !formData.message) {
-    return Swal.fire("⚠️ Please fill in all fields", "", "warning");
-  }
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (!formData.title || !formData.message) {
+      return Swal.fire("⚠️ Please fill in all fields", "", "warning");
+    }
+    createMutation.mutate(formData);
+  };
 
-  createMutation.mutate(formData, {
-    onSuccess: () => {
-      setFormData({ title: "", message: "" });
-
-      Swal.fire({
-        title: "🎉 Announcement Added!",
-        text: "Your announcement has been posted.",
-        icon: "success",
-        showClass: {
-          popup: "animate__animated animate__fadeInDown",
-        },
-        hideClass: {
-          popup: "animate__animated animate__fadeOutUp",
-        },
-        confirmButtonColor: "#EA580C",
-      });
-    },
-    onError: () =>
-      Swal.fire("❌ Failed to add announcement", "", "error"),
-  });
-};
   return (
     <motion.div
       className="p-6 bg-[var(--color-background)] min-h-screen"
@@ -106,14 +94,59 @@ const handleAdd = async (e) => {
         </button>
       </form>
 
-      {/* ✅ Announcements Table */}
+      {/* ✅ Card View on Small Screens */}
+      <div className="space-y-4 lg:hidden">
+        {isLoading ? (
+          <p className="text-center text-gray-500">Loading...</p>
+        ) : announcements.length === 0 ? (
+          <p className="text-center text-gray-500">No announcements found.</p>
+        ) : (
+          announcements.map((a) => (
+            <motion.div
+              key={a._id}
+              className="p-4 bg-white border border-gray-200 rounded shadow"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3 className="text-lg font-bold text-[var(--color-primary)]">{a.title}</h3>
+              <p className="mt-1 text-gray-700">{a.message}</p>
+              <div className="flex flex-wrap gap-2 mt-4">
+                <button
+                  className="btn btn-sm btn-info"
+                  onClick={() => navigate(`/dashboard/admin/announcements/edit/${a._id}`)}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Delete?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Yes",
+                    }).then((result) => {
+                      if (result.isConfirmed) deleteMutation.mutate(a._id);
+                    });
+                  }}
+                  className="btn btn-sm btn-error"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          ))
+        )}
+      </div>
+
+      {/* ✅ Table View on Large Screens */}
       <motion.div
-        className="overflow-x-auto bg-white rounded-lg shadow"
+        className="hidden overflow-x-auto bg-white rounded-lg shadow lg:block"
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
-        <table className="table w-full table-zebra">
+        <table className="table w-full">
           <thead className="bg-[var(--color-secondary)] text-white text-md">
             <tr>
               <th>Title</th>
@@ -121,11 +154,11 @@ const handleAdd = async (e) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-[var(--color-text-primary)]">
             {isLoading ? (
               <tr><td colSpan="3" className="py-6 text-center">Loading...</td></tr>
             ) : announcements.length === 0 ? (
-              <tr><td colSpan="3" className="py-6 text-center text-gray-500">No announcements found.</td></tr>
+              <tr><td colSpan="3" className="py-6 text-center">No announcements found.</td></tr>
             ) : (
               announcements.map((a) => (
                 <motion.tr
@@ -133,6 +166,7 @@ const handleAdd = async (e) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
+                  className="border border-gray-300"
                 >
                   <td>{a.title}</td>
                   <td>{a.message}</td>
