@@ -1,4 +1,4 @@
-Live URL: https://sports-club-app.vercel.app
+Live URL: https://sports-club-c4431.web.app/
 
 🖥️ Client Side (/client)
 
