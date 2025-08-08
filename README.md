@@ -1,31 +1,31 @@
-Live URL: https://sports-club-c4431.web.app/
 
-🖥️ Client Side (/client)
+🏟️ Sports Club Management System
+🔗 Live URL: https://sports-club-c4431.web.app/
 
-🚀 Features
+A full-stack web application that allows users to explore, book, and manage sports courts and sessions with a focus on modern UI/UX design and role-based functionality.
 
-User Authentication via Firebase (Email/Password + Google Login).
+🖥️ Client Side Features
+User Authentication via Firebase (Email/Password + Google Login)
 
-Lottie Animations for engaging visuals.
+Lottie Animations for engaging visuals
 
-SweetAlert2 for user-friendly alerts.
+SweetAlert2 for user-friendly alerts
 
-Dark/Light Theme toggle with CSS Variables.
+Dark/Light Theme Toggle using CSS variables
 
-Court Listings with booking modals and session slots.
+Court Listings with dynamic booking modals and session slot selection
 
-Responsive Layout (mobile-first design).
+Responsive Design (Mobile-First UI)
 
-Protected Routes (e.g., dashboard, booking pages).
+Protected Routes (Dashboard, Bookings, etc.)
 
-Framer Motion animations for smooth transitions.
+Framer Motion Animations for smooth transitions
 
-React Router DOM for route navigation.
+Role-Based Dashboards for Admin, Member, and User views
 
-Role-Based Dashboards for admin, members, and regular users.
+React Router DOM for seamless navigation
 
 🔧 Tech Stack
-
 React
 
 Tailwind CSS
@@ -34,14 +34,12 @@ React Hook Form
 
 React Router DOM
 
-Firebase Auth
+Firebase Authentication
 
-React Query / Axios
+React Query & Axios
 
-Lottie / SweetAlert2
+Lottie & SweetAlert2
 
-🔐 Admin Login
-
+🔐 Admin Login (Demo)
 Email: tanzia@gmail.com
-
-Password: Abcdef1
+Password: Abcdef1.
