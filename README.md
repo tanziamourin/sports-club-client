@@ -1,45 +1,52 @@
+# 🏟️ Sports Club Management System
 
-🏟️ Sports Club Management System
-🔗 Live URL: https://sports-club-c4431.web.app/
+🔗 **Live Demo:** [https://sports-club-c4431.web.app/](https://sports-club-c4431.web.app/)
 
-A full-stack web application that allows users to explore, book, and manage sports courts and sessions with a focus on modern UI/UX design and role-based functionality.
+A full-stack web application designed to allow users to explore, book, and manage sports courts and sessions. It features a modern, responsive UI with role-based dashboards for Admins, Members, and Users.
 
-🖥️ Client Side Features
-User Authentication via Firebase (Email/Password + Google Login)
+---
 
-Lottie Animations for engaging visuals
+## 🖥️ Features
 
-SweetAlert2 for user-friendly alerts
+- User Authentication via **Firebase** (Email/Password + Google Login)  
+- Engaging **Lottie animations**  
+- User-friendly alerts using **SweetAlert2**  
+- **Dark/Light Theme toggle** with CSS variables  
+- Court listings with dynamic booking modals and session slot selection  
+- Fully **responsive design** (mobile-first)  
+- Protected routes for secure dashboard and booking access  
+- Smooth page transitions with **Framer Motion**  
+- Role-based dashboards for **Admin**, **Member**, and **User**  
+- Routing with **React Router DOM**
 
-Dark/Light Theme Toggle using CSS variables
+---
 
-Court Listings with dynamic booking modals and session slot selection
+## 💻 Tech Stack
 
-Responsive Design (Mobile-First UI)
+- React  
+- Tailwind CSS  
+- React Hook Form  
+- React Router DOM  
+- Firebase Authentication  
+- React Query & Axios  
+- Lottie & SweetAlert2  
+- Framer Motion
 
-Protected Routes (Dashboard, Bookings, etc.)
-
-Framer Motion Animations for smooth transitions
-
-Role-Based Dashboards for Admin, Member, and User views
-
-React Router DOM for seamless navigation
-
-🔧 Tech Stack
-React
-
-Tailwind CSS
-
-React Hook Form
-
-React Router DOM
-
-Firebase Authentication
-
-React Query & Axios
-
-Lottie & SweetAlert2
-
-🔐 Admin Login (Demo)
+---
+ ## 👨‍💻 Demo Admin Credentials
 Email: tanzia@gmail.com
 Password: Abcdef1.
+
+
+
+ ## 🚀 Future Features
+Payment integration
+Admin approval for bookings
+Notification system
+Profile management
+
+## 🛠️ Installation & Setup Instructions
+
+1. **Clone the repository:**
+npm install
+npm start
