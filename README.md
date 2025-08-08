@@ -34,19 +34,19 @@ A full-stack web application designed to allow users to explore, book, and manag
 
 ---
  ## 👨‍💻 Demo Admin Credentials
-Email: tanzia@gmail.com
-Password: Abcdef1.
+- Email: tanzia@gmail.com
+- Password: Abcdef1.
 
 
 
  ## 🚀 Future Features
-Payment integration
-Admin approval for bookings
-Notification system
-Profile management
+- Payment integration
+- Admin approval for bookings
+- Notification system
+- Profile management
 
 ## 🛠️ Installation & Setup Instructions
 
 1. **Clone the repository:**
-npm install
-npm start
+- npm install
+- npm start
