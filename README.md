@@ -1,47 +1,52 @@
-Live URL: https://sports-club-c4431.web.app/
+# 🏟️ Sports Club Management System
 
-🖥️ Client Side (/client)
+🔗 **Live Demo:** [https://sports-club-c4431.web.app/](https://sports-club-c4431.web.app/)
 
-🚀 Features
+A full-stack web application designed to allow users to explore, book, and manage sports courts and sessions. It features a modern, responsive UI with role-based dashboards for Admins, Members, and Users.
 
-User Authentication via Firebase (Email/Password + Google Login).
+---
 
-Lottie Animations for engaging visuals.
+## 🖥️ Features
 
-SweetAlert2 for user-friendly alerts.
+- User Authentication via **Firebase** (Email/Password + Google Login)  
+- Engaging **Lottie animations**  
+- User-friendly alerts using **SweetAlert2**  
+- **Dark/Light Theme toggle** with CSS variables  
+- Court listings with dynamic booking modals and session slot selection  
+- Fully **responsive design** (mobile-first)  
+- Protected routes for secure dashboard and booking access  
+- Smooth page transitions with **Framer Motion**  
+- Role-based dashboards for **Admin**, **Member**, and **User**  
+- Routing with **React Router DOM**
 
-Dark/Light Theme toggle with CSS Variables.
+---
 
-Court Listings with booking modals and session slots.
+## 💻 Tech Stack
 
-Responsive Layout (mobile-first design).
+- React  
+- Tailwind CSS  
+- React Hook Form  
+- React Router DOM  
+- Firebase Authentication  
+- React Query & Axios  
+- Lottie & SweetAlert2  
+- Framer Motion
 
-Protected Routes (e.g., dashboard, booking pages).
+---
+ ## 👨‍💻 Demo Admin Credentials
+- Email: tanzia@gmail.com
+- Password: Abcdef1.
 
-Framer Motion animations for smooth transitions.
 
-React Router DOM for route navigation.
 
-Role-Based Dashboards for admin, members, and regular users.
+ ## 🚀 Future Features
+- Payment integration
+- Admin approval for bookings
+- Notification system
+- Profile management
 
-🔧 Tech Stack
+## 🛠️ Installation & Setup Instructions
 
-React
-
-Tailwind CSS
-
-React Hook Form
-
-React Router DOM
-
-Firebase Auth
-
-React Query / Axios
-
-Lottie / SweetAlert2
-
-🔐 Admin Login
-
-Email: tanzia@gmail.com
-
-Password: Abcdef1
+1. **Clone the repository:**
+- npm install
+- npm start

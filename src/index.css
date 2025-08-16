@@ -15,8 +15,12 @@
   --color-background: #FFFBEB;    /* Warm cream */
   --color-text-primary: #1E293B;  /* Dark gray */
   --color-text-secondary: #64748B;
-  --color-surface: #FFFFFF;       /* Pure white for cards/surfaces */
+  --color-surface: #FFFFFF;       /* Pure white for cards surfaces */
+   --section-padding: 4rem 2rem;
+  --section-min-height: 100vh;
+  --container-width: 1200px;
 }
+
 
 [data-theme="dark"] {
   /* Dark Theme */
@@ -36,7 +40,14 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* logo */
+section {
+  width: 100%;
+  min-height: var(--section-min-height);
+  padding: var(--section-padding);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 
 
 /* Buttons */

@@ -41,7 +41,7 @@ const Banner = () => {
   const current = slides[index];
 
   return (
-    <div className="w-full">
+    <div className="w-full -mt-10">
       <div
         className="relative w-full mt-10 overflow-hidden bg-gray-800 shadow-2xl rounded-2xl aspect-video"
         onMouseEnter={() => setIsHovered(true)}
@@ -60,7 +60,7 @@ const Banner = () => {
             <img
               src={current.url}
               alt={current.title}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-80%"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
