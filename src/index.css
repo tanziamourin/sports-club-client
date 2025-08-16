@@ -2,61 +2,75 @@
 @plugin "daisyui";
 
 
-
-
+*{
+  text-decoration: none;
+}
 
 :root {
-  --color-primary: #EA580C;
-  --color-secondary: #FDBA74;
-  --color-accent: #FACC15;
-  --color-background: #FFFAF0;
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
+  /* Light Theme */
+  --color-primary: #EA580C;       /* Vibrant orange */
+  --color-secondary: #F97316;     /* Slightly darker orange */
+  --color-accent: #2563EB;        /* Blue for contrast */
+  --color-success: #16A34A;       /* New vibrant green */
+  --color-background: #FFFBEB;    /* Warm cream */
+  --color-text-primary: #1E293B;  /* Dark gray */
+  --color-text-secondary: #64748B;
+  --color-surface: #FFFFFF;       /* Pure white for cards/surfaces */
 }
-
 
 [data-theme="dark"] {
-  --color-primary: #FDBA74;
-  --color-secondary: #EA580C;
-  --color-accent: #FACC15;
-  --color-background: #1f2937;
-  --color-text-primary: #F9FAFB;
-  --color-text-primarys: #111827;
-  --color-text-secondary: #9CA3AF;
+  /* Dark Theme */
+  --color-primary: #FDBA74;       /* Light orange */
+  --color-secondary: #F97316;     /* Medium orange */
+  --color-accent: #60A5FA;        /* Light blue */
+  --color-success: #4ADE80;       /* Brighter green for dark mode */
+  --color-background: #1E293B;    /* Dark blue-gray */
+  --color-text-primary: #F8FAFC;  /* Nearly white */
+  --color-text-secondary: #94A3B8;
+  --color-surface: #334155;       /* Darker surface for cards */
 }
-
 /* Base body styling */
 body {
-  background-color: var(--color-background);
+  /* background-color: var(--color-background); */
   color: var(--color-text-primary);
   font-family: 'Inter', sans-serif;
 }
 
 /* logo */
 
-.club{
 
-}
 /* Buttons */
 .btn-primary {
   background-color: var(--color-primary);
   color: white;
   border: none;
+  
 }
 
 .btn-primary:hover {
   background-color: #fb923c;
+  text-decoration: none;
   color: black;
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-text-primary);
+  background-color: var(--color-accent);
+  color: white;
+  
 }
 .btn-secondary:hover {
-  background-color: #fb923c;
+  background-color: #60A5FA;
+  text-decoration: none;
 }
 
+.btn-success {
+  background-color: var(--color-success);
+  color: white;
+}
+.btn-success:hover {
+  background-color: #4ADE80;
+  text-decoration: none;
+}
 /* Headings */
 /* h1, h2, h4, h5, h6 {
   color: var(--color-text-primary);

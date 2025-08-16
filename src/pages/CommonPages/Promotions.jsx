@@ -16,7 +16,7 @@ const Promotions = () => {
 
   return (
     <section
-      className="px-4 mt-2 py-14 md:px-10"
+      className="px-4 mx-auto mt-2 py-14 md:px-10 max-w-7xl"
       style={{ backgroundColor: "var(--color-background)" }}
     >
       <div className="max-w-6xl mx-auto text-center">

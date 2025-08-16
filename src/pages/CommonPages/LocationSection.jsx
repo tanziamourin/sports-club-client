@@ -7,7 +7,8 @@ const LocationSection = () => {
   const position = [23.7805733, 90.4192895];
 
   return (
-    <section className="bg-[var(--color-background)] py-12 px-4">
+    <section className="px-4 py-12 mx-auto max-w-7xl">
+      {/* bg-[var(--color-background)]  */}
       <div className="max-w-4xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}

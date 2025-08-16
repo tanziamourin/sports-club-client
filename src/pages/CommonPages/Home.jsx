@@ -3,14 +3,15 @@ import Banner from "./Banner";
 import LocationSection from "./LocationSection";
 
 import Promotions from "./Promotions";
-import AboutClub from "./AboutClub";
+
+import ClubSection from "./ClubSection";
 
 const Home = () => {
   return (
-    <div>
+    <div >
       <Banner></Banner>
-
-      <AboutClub></AboutClub>
+    <ClubSection></ClubSection>
+      {/* <AboutClub></AboutClub> */}
       <LocationSection></LocationSection>
       <Promotions></Promotions>
     </div>
