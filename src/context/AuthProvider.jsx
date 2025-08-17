@@ -22,45 +22,48 @@ const AuthProvider = ({ children }) => {
   const axiosSecure = useAxiosSecure();
 
   // ✅ Save new user in DB and show Swal alert
- useEffect(() => {
+useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     setUser(currentUser);
     setLoading(false);
 
-    if (currentUser?.email) {
-      try {
-        const res = await axiosSecure.post("/users", {
-          name: currentUser.displayName || "Unnamed",
-          email: currentUser.email,
-          image: currentUser.photoURL || "",
-        });
+    if (!currentUser?.email) return;
 
-        if (res.status === 201) {
-          Swal.fire({
-            icon: "success",
-            title: "🎉 Welcome!",
-            text: "Your account has been created.",
-            confirmButtonColor: "#16a34a",
-          });
-        }
-      } catch (err) {
-        if (err.response?.status === 409) {
-          // User already exists — skip alert
-          console.log("User already exists.");
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops!",
-            text: "Something went wrong while saving user.",
-            confirmButtonColor: "#dc2626",
-          });
-        }
+    try {
+      // Only attempt to create user if it doesn't already exist
+      const res = await axiosSecure.post("/users", {
+        name: currentUser.displayName || "Unnamed",
+        email: currentUser.email,
+        image: currentUser.photoURL || "",
+      });
+
+      if (res.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "🎉 Welcome!",
+          text: "Your account has been created.",
+          confirmButtonColor: "#16a34a",
+        });
+      }
+
+    } catch (err) {
+      if (err.response?.status === 409) {
+        // User already exists — silently ignore
+        console.log("User already exists, skipping creation.");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: "Something went wrong while saving user.",
+          confirmButtonColor: "#dc2626",
+        });
       }
     }
   });
 
   return () => unsubscribe();
 }, [axiosSecure]);
+
 
 
   const {

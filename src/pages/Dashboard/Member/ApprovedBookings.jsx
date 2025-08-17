@@ -30,40 +30,47 @@ const ApprovedBookings = () => {
     },
     onError: () => {
       Swal.fire("Error", "Could not cancel booking.", "error");
-    }
+    },
   });
 
-  if (isLoading) return <p>Loading approved bookings...</p>;
+  if (isLoading) return <p className="mt-10 text-center">Loading approved bookings...</p>;
 
   return (
-    <div className="mt-20">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Approved Bookings</h2>
+    <div className="max-w-5xl px-4 mx-auto mt-20">
+      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">
+        Approved Bookings
+      </h2>
 
       {approved.length === 0 ? (
-        <p>No approved bookings found.</p>
+        <p className="text-center text-[var(--color-text-secondary)]">
+          No approved bookings found.
+        </p>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-6 md:grid-cols-2">
           {approved.map((booking) => (
-            <div key={booking._id} className="p-4 bg-white  text-[var(--color-text-primarys)] rounded shadow">
-              <p><strong>Court:</strong> {booking.courtType}</p>
-              <p><strong>Slot:</strong> {booking.slot}</p>
-              <p><strong>Date:</strong> {booking.date}</p>
-              <p><strong>Price:</strong> ${booking.price}</p>
+            <div
+              key={booking._id}
+              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow hover:shadow-lg transition border border-transparent dark:border-gray-600"
+            >
+              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Court:</strong> {booking.courtType}</p>
+              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Slot:</strong> {booking.slot}</p>
+              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Date:</strong> {booking.date}</p>
+              <p className="mb-4 text-[var(--color-text-primary)]"><strong>Price:</strong> ${booking.price}</p>
 
-              <div className="flex gap-2 mt-3">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => navigate(`/dashboard/member/payment/${booking._id}`)}
-                  className="px-4 py-1 text-white bg-green-600 rounded"
+                  className="px-4 py-2 text-white bg-[var(--color-success)] rounded-lg hover:bg-green-500 transition"
                 >
                   Pay Now
                 </button>
 
                 <button
-                  className="px-4 py-1 text-white bg-red-500 rounded"
+                  className="px-4 py-2 text-white bg-[var(--color-primary)] rounded-lg hover:bg-orange-500 transition"
                   onClick={() =>
                     Swal.fire({
                       title: "Cancel Booking?",
-                      text: "Are you sure?",
+                      text: "Are you sure you want to cancel?",
                       icon: "warning",
                       showCancelButton: true,
                       confirmButtonText: "Yes, cancel it!",

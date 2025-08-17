@@ -10,9 +10,9 @@ import Courts from "../pages/Courts/Courts";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 
+
 // User Dashboard Pages
 import UserProfile from "../pages/Dashboard/User/UserProfile";
-
 import UserAnnouncements from "../pages/Dashboard/User/UserAnnouncements";
 import PendingBookings from "../pages/Dashboard/User/PendingBookings";
 
@@ -34,6 +34,9 @@ import ManageCourts from "../pages/Dashboard/Admin/ManageCourts";
 import ConfirmedBookingsAdmin from "../pages/Dashboard/Admin/ConfirmedBookingsAdmin";
 import ManageCoupons from "../pages/Dashboard/Admin/ManageCoupons";
 import ManageAnnouncements from "../pages/Dashboard/Admin/ManageAnnouncements";
+import EditCourt from "../pages/Dashboard/Admin/EditCourt";
+import EditAnnouncement from "../pages/Dashboard/Admin/EditAnnouncement";
+import ManageMembershipPlans from "../pages/Dashboard/Admin/ManageMembershipPlans"; // New import
 
 // Route Guards
 import PrivateRoute from "./PrivateRoute";
@@ -41,8 +44,10 @@ import MemberRoute from "./MemberRoute";
 import AdminRoute from "./AdminRoute";
 import NotFound from "../pages/CommonPages/NotFound";
 import WelcomePage from "../pages/Dashboard/WelcomePage";
-import EditCourt from "../pages/Dashboard/Admin/EditCourt";
-import EditAnnouncement from "../pages/Dashboard/Admin/EditAnnouncement";
+// import MembershipPage from "../pages/CommonPages/MembershipPage";
+import TermsAndPolicies from "../pages/CommonPages/TermsAndPolicies";
+import MembershipPageWrapper from "../pages/CommonPages/MemberShipPages/MembershipPage";
+// import MembershipPageWrapper from "../pages/CommonPages/MemberShipPages/MembershipPage";
 
 const router = createBrowserRouter([
   {
@@ -51,8 +56,11 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/courts", element: <Courts /> },
+      
+      { path: "/terms-and-policies", element: <TermsAndPolicies></TermsAndPolicies> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+      { path: "/membership", element: <MembershipPageWrapper></MembershipPageWrapper> }, // New public route
     ],
   },
   {
@@ -64,12 +72,11 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true, // /dashboard route
+        index: true,
         element: <WelcomePage />,
       },
       // 🟢 User Routes
       { path: "user/profile", element: <UserProfile /> },
-
       { path: "user/announcements", element: <UserAnnouncements /> },
       { path: "user/pending", element: <PendingBookings /> },
 
@@ -125,14 +132,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/courts/edit/:id",
+        path: "admin/courts/edit/:id",
         element: (
           <PrivateRoute>
             <AdminRoute>
               <EditCourt />
             </AdminRoute>
           </PrivateRoute>
-        ), // or your auth wrapper
+        ),
       },
       {
         path: "admin/confirmed",
@@ -165,15 +172,27 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/announcements/edit/:id",
+        path: "admin/announcements/edit/:id",
         element: (
           <PrivateRoute>
             <AdminRoute>
-              <EditAnnouncement></EditAnnouncement>
+              <EditAnnouncement />
             </AdminRoute>
           </PrivateRoute>
         ),
       },
+      {
+        path: "admin/membership-plans", // New admin route
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageMembershipPlans />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+
+      // 🟠 Member Routes
       {
         path: "member/profile",
         element: (
@@ -246,7 +265,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     path: "*",
     element: <NotFound />,

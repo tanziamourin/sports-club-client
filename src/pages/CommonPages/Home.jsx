@@ -5,15 +5,17 @@ import LocationSection from "./LocationSection";
 import Promotions from "./Promotions";
 
 import ClubSection from "./ClubSection";
+import UpcomingEvents from "../../components/UpcomingEvents";
 
 const Home = () => {
   return (
-    <div >
+    <div>
       <Banner></Banner>
-    <ClubSection></ClubSection>
-      {/* <AboutClub></AboutClub> */}
-      <LocationSection></LocationSection>
+      <ClubSection></ClubSection>
+      <UpcomingEvents></UpcomingEvents>
       <Promotions></Promotions>
+      <LocationSection></LocationSection>
+      
     </div>
   );
 };

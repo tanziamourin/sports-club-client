@@ -111,11 +111,11 @@ a {
 
 a:hover {
   color: #c2410c;
-  text-decoration: underline;
+
 }
 /* for footer */
 .a-footer {
-  color: var(--color-background);
+  color: white;
   transition: color 0.3s ease;
   display: inline-block;
 }

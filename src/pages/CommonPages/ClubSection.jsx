@@ -5,7 +5,7 @@ import TestimonialsSection from "./TestimonialsSection";
 
 const ClubSection = () => {
   return (
-    <section className="">
+    <div className="">
       <div className="px-4 mx-auto max-w-7xl">
         {/* Header */}
         <div className="mt-16 mb-12 text-center">
@@ -37,7 +37,7 @@ const ClubSection = () => {
         {/* Testimonials */}
         <TestimonialsSection></TestimonialsSection>
       </div>
-    </section>
+    </div>
   );
 };
 

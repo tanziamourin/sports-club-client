@@ -1,7 +1,6 @@
 // ManageCourts.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -60,10 +59,10 @@ const ManageCourts = () => {
     const formData = new FormData();
     formData.append("image", imageFile);
 
-    const uploadRes = await fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
-      method: "POST",
-      body: formData,
-    });
+    const uploadRes = await fetch(
+      `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
+      { method: "POST", body: formData }
+    );
     const imgData = await uploadRes.json();
 
     if (imgData.success) {
@@ -87,63 +86,133 @@ const ManageCourts = () => {
   };
 
   return (
-    <motion.div className="p-4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <h2 className="mb-6 text-3xl font-bold text-center text-transparent bg-gradient-to-r from-orange-600 to-yellow-400 bg-clip-text">
+    <motion.div
+      className="p-6"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <h2 className="mb-8 text-3xl font-extrabold text-center text-transparent bg-gradient-to-r from-orange-600 to-yellow-400 bg-clip-text">
         Manage Courts
       </h2>
 
       {/* Add Court Form */}
-      <motion.form onSubmit={handleAdd} className="grid grid-cols-1 gap-4 p-6 bg-white rounded-lg shadow md:grid-cols-2" whileHover={{ scale: 1.01 }}>
-        <input name="name" type="text" placeholder="Court Name" className="input input-bordered" />
-        <input name="type" type="text" placeholder="Type (e.g. Tennis)" className="input input-bordered" />
-        <input name="image" type="file" accept="image/*" className="file-input file-input-bordered" />
-        <input name="price" type="number" placeholder="Price" className="input input-bordered" />
-        <button type="submit" className="col-span-full btn btn-accent">Add Court</button>
+      <motion.form
+        onSubmit={handleAdd}
+        className="grid grid-cols-1 gap-4 p-6 shadow-md rounded-2xl bg-base-100 md:grid-cols-2"
+        whileHover={{ scale: 1.01 }}
+      >
+        <input
+          name="name"
+          type="text"
+          placeholder="Court Name"
+          className="w-full input input-bordered"
+        />
+        <input
+          name="type"
+          type="text"
+          placeholder="Type (e.g. Tennis)"
+          className="w-full input input-bordered"
+        />
+        <input
+          name="image"
+          type="file"
+          accept="image/*"
+          className="w-full file-input file-input-bordered"
+        />
+        <input
+          name="price"
+          type="number"
+          placeholder="Price"
+          className="w-full input input-bordered"
+        />
+        <button
+          type="submit"
+          className="shadow-md col-span-full btn btn-accent rounded-xl"
+        >
+          ➕ Add Court
+        </button>
       </motion.form>
 
       {/* Court Table */}
-      <div className="mt-8 overflow-x-auto bg-white rounded shadow">
-        <table className="table">
-          <thead className="bg-[var(--color-secondary)] text-white">
+      <div className="mt-10 overflow-x-auto shadow-md rounded-2xl bg-base-100">
+        <table className="table w-full table-zebra">
+          <thead className="text-white bg-gradient-to-r from-orange-500 to-yellow-400">
             <tr>
               <th>Image</th>
               <th>Name</th>
               <th>Type</th>
               <th>Price</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-[var(--color-text-primarys)]">
+          <tbody>
             {isLoading ? (
-              <tr className="border border-gray-300"><td colSpan="6" className="text-center">Loading...</td></tr>
+              <tr>
+                <td colSpan="6" className="p-6 text-center">
+                  <span className="text-orange-500 loading loading-spinner"></span>
+                </td>
+              </tr>
+            ) : courts.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="p-6 text-center text-gray-400">
+                  No courts found.
+                </td>
+              </tr>
             ) : (
               courts.map((court) => (
-                <motion.tr key={court._id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="hover:bg-orange-50">
-                  <td><img src={court.image} alt="court" className="object-cover w-16 h-12 rounded" /></td>
-                  <td>{court.name}</td>
+                <motion.tr
+                  key={court._id}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className=""
+                >
+                  <td>
+                    <img
+                      src={court.image}
+                      alt="court"
+                      className="object-cover w-16 h-12 rounded-lg shadow-sm"
+                    />
+                  </td>
+                  <td className="font-medium">{court.name}</td>
                   <td>{court.type}</td>
                   <td>${court.price}</td>
                   <td>
                     <select
-                      className="select select-bordered select-sm"
+                      className="w-full select select-bordered select-sm"
                       value={court.status}
-                      onChange={(e) => statusMutation.mutate({ id: court._id, status: e.target.value })}
+                      onChange={(e) =>
+                        statusMutation.mutate({
+                          id: court._id,
+                          status: e.target.value,
+                        })
+                      }
                     >
                       <option value="Available">Available</option>
                       <option value="Unavailable">Unavailable</option>
-                      <option value="Under Maintenance">Under Maintenance</option>
+                      <option value="Under Maintenance">
+                        Under Maintenance
+                      </option>
                     </select>
                   </td>
-                  <td className="flex flex-wrap gap-2">
-                    <button className="btn btn-sm btn-info" onClick={() => handleEditNavigate(court)}>Edit</button>
+                  <td className="flex justify-center gap-2">
                     <button
-                      className="btn btn-sm btn-error"
+                      className="rounded-lg shadow btn btn-sm btn-info"
+                      onClick={() => handleEditNavigate(court)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="rounded-lg shadow btn btn-sm btn-error"
                       onClick={() => {
                         Swal.fire({
                           title: "Are you sure?",
                           icon: "warning",
                           showCancelButton: true,
+                          confirmButtonColor: "#e74c3c",
+                          cancelButtonColor: "#95a5a6",
                           confirmButtonText: "Yes, delete it!",
                         }).then((result) => {
                           if (result.isConfirmed) deleteMutation.mutate(court._id);

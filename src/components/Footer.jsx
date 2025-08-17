@@ -26,7 +26,7 @@ const Footer = () => {
           <div className="flex items-center gap-2 mb-4 text-3xl font-extrabold text-white">
             <Logo></Logo>
           </div>
-          <p className="text-sm text-[var(--color-background)]">
+          <p className="text-sm text-white">
             Empowering athletes and enthusiasts through world-class facilities
             and a vibrant community.
           </p>
@@ -62,13 +62,13 @@ const Footer = () => {
         {/* Contact Info */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Contact Us</h3>
-          <p className="text-sm text-[var(--color-background)]">
+          <p className="text-sm ">
             📍 123 Club Avenue, Chattogram, Bangladesh
           </p>
-          <p className="text-sm text-[var(--color-background)]">
+          <p className="text-sm ">
             📞 +880 1234 567890
           </p>
-          <p className="text-sm text-[var(--color-background)]">
+          <p className="text-sm ">
             ✉️ info@sportsclub.com
           </p>
         </div>
@@ -76,7 +76,7 @@ const Footer = () => {
         {/* Social Media */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Follow Us</h3>
-          <div className="flex gap-4 text-xl ">
+          <div className="flex gap-4 text-xl text-white ">
             <a
               className="a-footer"
               href="https://facebook.com"
@@ -114,7 +114,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-10 border-t pt-4 text-center text-sm text-[var(--color-background)] border-[rgba(255,255,255,0.3)]">
+      <div className="mt-10 border-t pt-4 text-center text-sm text-white border-[rgba(255,255,255,0.3)]">
         © {new Date().getFullYear()} Sports Club. All rights reserved.
       </div>
       <ScrollToTopButton></ScrollToTopButton>

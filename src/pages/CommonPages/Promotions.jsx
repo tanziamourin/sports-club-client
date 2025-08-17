@@ -15,16 +15,16 @@ const Promotions = () => {
   });
 
   return (
-    <section
+    <div
       className="px-4 mx-auto mt-2 py-14 md:px-10 max-w-7xl"
-      style={{ backgroundColor: "var(--color-background)" }}
+      // style={{ backgroundColor: "var(--color-background)" }}
     >
       <div className="max-w-6xl mx-auto text-center">
         <div className="mb-11">
-          <h2 className="text-4xl font-bold text-[var(--color-primary)] text-center mt-10">
-            🎁 Promotions & Discounts
+          <h2 className="text-4xl lg:text-5xl font-bold text-[var(--color-primary)] text-center mt-10">
+            Promotions & Discounts
           </h2>
-          <hr className="w-16 h-1 mx-auto mt-3  mb-10 bg-[var(--color-accent)] rounded" />
+               <hr className="w-16 h-1 mx-auto mt-3 mb-4 bg-[var(--color-secondary)] rounded" />
         </div>
         {isLoading ? (
           <p className="text-gray-600">Loading coupons...</p>
@@ -42,7 +42,7 @@ const Promotions = () => {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

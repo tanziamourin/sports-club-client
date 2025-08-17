@@ -28,7 +28,7 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="px-4 py-16 mx-auto max-w-7xl">
+    <div className="px-4 mx-auto my-15 max-w-7xl">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ const TestimonialsSection = () => {
         </p>
       </motion.div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 my-15 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((testimonial, index) => (
           <motion.div
             key={index}
@@ -87,7 +87,7 @@ const TestimonialsSection = () => {
           </motion.div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

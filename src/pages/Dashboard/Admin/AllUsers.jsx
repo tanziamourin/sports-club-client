@@ -2,7 +2,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { motion } from "framer-motion";
+import { 
+  FiSearch, 
+  FiMail, 
+  FiUserCheck, 
+  FiTrash2,
+  FiChevronUp,
+  FiChevronDown,
+  FiPlus,
+  FiPhone
+} from "react-icons/fi";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -13,46 +22,57 @@ const AllUsers = () => {
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["allUsers"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/admin/users");
-      return res.data;
-    },
+    queryFn: async () => (await axiosSecure.get("/admin/users")).data,
   });
 
   const promoteMutation = useMutation({
-    mutationFn: async ({ id, role }) => {
-      return await axiosSecure.patch(`/users/${id}/role`, { role });
-    },
+    mutationFn: async ({ id, role }) => await axiosSecure.patch(`/users/${id}/role`, { role }),
     onSuccess: () => {
       queryClient.invalidateQueries(["allUsers"]);
-      Swal.fire("✅ Success!", "User promoted successfully.", "success");
+      Swal.fire({
+        toast: true,
+        icon: "success",
+        title: "Role updated!",
+        timer: 1800,
+        position: 'top-end',
+        showConfirmButton: false,
+        background: "var(--color-success)",
+        color: "var(--color-surface)"
+      });
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id) => {
-      return await axiosSecure.delete(`/users/${id}`);
-    },
+    mutationFn: async (id) => await axiosSecure.delete(`/users/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["allUsers"]);
-      Swal.fire("🗑️ Deleted!", "User has been removed.", "info");
+      Swal.fire({
+        toast: true,
+        icon: "info",
+        title: "User deleted",
+        timer: 1800,
+        position: 'top-end',
+        showConfirmButton: false,
+        background: "var(--color-primary)",
+        color: "var(--color-surface)"
+      });
     },
   });
 
-  const filtered = users.filter(
-    (user) =>
-      user.name?.toLowerCase().includes(search.toLowerCase()) ||
-      user.email?.toLowerCase().includes(search.toLowerCase())
+
+  const filtered = users.filter(u => 
+    u.name?.toLowerCase().includes(search.toLowerCase()) ||
+    u.email?.toLowerCase().includes(search.toLowerCase())
   );
 
   const sorted = [...filtered].sort((a, b) => {
-    const aValue = sortField === "createdAt" ? new Date(a[sortField]) : a[sortField]?.toLowerCase();
-    const bValue = sortField === "createdAt" ? new Date(b[sortField]) : b[sortField]?.toLowerCase();
-    return sortOrder === "asc" ? (aValue > bValue ? 1 : -1) : aValue < bValue ? 1 : -1;
+    const aVal = sortField === "createdAt" ? new Date(a[sortField]) : a[sortField]?.toLowerCase();
+    const bVal = sortField === "createdAt" ? new Date(b[sortField]) : b[sortField]?.toLowerCase();
+    return sortOrder === "asc" ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
   });
 
   const handleSort = (field) => {
-    if (sortField === field) {
+    if (field === sortField) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
@@ -60,166 +80,119 @@ const AllUsers = () => {
     }
   };
 
-  return (
-    <motion.div
-      className="p-4"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h2 className="mb-8 my-11 text-4xl font-bold text-[var(--color-primary)]">
-        All Registered Users
-      </h2>
+  // style object instead of string ⬇️
+  const getRoleColor = (role) => {
+    switch (role) {
+      case "admin":
+        return { background: "var(--color-primary)", color: "var(--color-surface)" };
+      case "member":
+        return { background: "var(--color-success)", color: "var(--color-surface)" };
+      default:
+        return { background: "var(--color-accent)", color: "#fff" };
+    }
+  };
 
-      <input
-        type="text"
-        placeholder="Search by name or email"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full max-w-md mb-4 input input-bordered"
-      />
+  return (
+    <div className="p-4 md:p-6" style={{ background: "var(--color-background)" }}>
+      <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>User Management</h2>
+          <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
+            Manage registered users and their permissions
+          </p>
+        </div>
+
+       
+          <div className="relative w-64">
+            <FiSearch className="absolute -translate-y-1/2 left-3 top-1/2" style={{ color: "var(--color-text-secondary)" }} />
+            <input
+              type="text"
+              placeholder="Search users..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full py-2 pl-10 pr-4 rounded-lg outline-none"
+              style={{
+                background: "var(--color-surface)",
+                color: "var(--color-text-primary)",
+                border: "1px solid var(--color-secondary)"
+              }}
+            />
+         
+         
+        </div>
+      </div>
 
       {isLoading ? (
-        <p>Loading users...</p>
+        <p style={{ color: "var(--color-text-primary)" }}>Loading...</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded shadow lg:overflow-x-hidden">
-          <table className="table w-full">
-            <thead className="bg-[var(--color-secondary)] text-white pb-5">
-              <tr>
-                <th>Photo</th>
-                <th onClick={() => handleSort("name")} className="cursor-pointer">
-                  Name {sortField === "name" ? (sortOrder === "asc" ? "⬆️" : "⬇️") : ""}
+        <div className="overflow-x-auto rounded-xl" style={{ background: "var(--color-surface)", border: "1px solid var(--color-secondary)" }}>
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr style={{ background: "var(--color-secondary)", color: "#fff" }}>
+                <th className="px-6 py-3 text-left">User</th>
+                <th className="px-6 py-3 text-left cursor-pointer" onClick={() => handleSort("name")}>
+                  <div className="flex items-center gap-1">
+                    Name {sortField === "name" && (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
+                  </div>
                 </th>
-                <th>Email</th>
-                <th onClick={() => handleSort("createdAt")} className="cursor-pointer">
-                  Joined {sortField === "createdAt" ? (sortOrder === "asc" ? "⬆️" : "⬇️") : ""}
+                <th className="px-6 py-3 text-left">Contact</th>
+                <th className="px-6 py-3 text-left cursor-pointer" onClick={() => handleSort("createdAt")}>
+                  <div className="flex items-center gap-1">
+                    Joined {sortField === "createdAt" && (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
+                  </div>
                 </th>
-                <th>Role</th>
-                <th>Action</th>
+                <th className="px-6 py-3 text-left">Role</th>
+                <th className="px-6 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {sorted.map((user) => (
-                <motion.tr
-                  key={user._id}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  whileHover={{ scale: 1.01, backgroundColor: "#fff7ed" }}
-                  className="border-b border border-gray-300 text-[var(--color-text-primarys)]"
-                >
-                  <td>
-                    <img
-                      src={user.image || "N/A"}
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full"
-                    />
+              {sorted.map((u) => (
+                <tr key={u._id} style={{ borderBottom: "1px solid var(--color-background)" }}>
+                  <td className="px-6 py-4">
+                    <img src={u.image} alt="" className="object-cover rounded-full w-9 h-9" />
                   </td>
-                  <td>{user.name || "N/A"}</td>
-                  <td>{user.email}</td>
-                  <td>{new Date(user.createdAt || user.joinedAt).toLocaleDateString()}</td>
-                  <td>
-                    <span
-                      className={`px-3 py-2 text-xs font-semibold rounded-full shadow ${
-                        user.role === "admin"
-                          ? "bg-red-100 text-red-700"
-                          : user.role === "member"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-blue-100 text-blue-700"
-                      }`}
-                    >
-                      {user.role}
+                  <td className="px-6 py-4" style={{ color: "var(--color-text-primary)" }}>
+                    {u.name || "N/A"}
+                  </td>
+                  <td className="px-6 py-4" style={{ color: "var(--color-text-primary)" }}>
+                    <div className="flex items-center gap-1"><FiMail />{u.email}</div>
+                    {u.phone && <div className="flex items-center gap-1 text-xs"><FiPhone />{u.phone}</div>}
+                  </td>
+                  <td className="px-6 py-4 text-xs" style={{ color: "var(--color-text-secondary)" }}>
+                    {new Date(u.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full" style={getRoleColor(u.role)}>
+                      {u.role.toUpperCase()}
                     </span>
                   </td>
-                  <td className="flex flex-wrap items-center gap-2">
-                    {/* ✅ Make Admin - Only if user is already a member */}
-                    {user.role === "member" && (
-                      <button
-                        onClick={() =>
-                          Swal.fire({
-                            title: "Promote to Admin?",
-                            icon: "question",
-                            showCancelButton: true,
-                            confirmButtonText: "Yes",
-                          }).then((res) => {
-                            if (res.isConfirmed) {
-                              promoteMutation.mutate({ id: user._id, role: "admin" });
-                            }
-                          })
-                        }
-                        className="p-4 text-white bg-[#EA580C] btn btn-xs hover:bg-orange-600"
-                      >
-                        Make Admin
-                      </button>
-                    )}
-
-                    {/* ⚠️ Show alert if not member */}
-                    {user.role !== "admin" && user.role !== "member" && (
-                      <button
-                        onClick={() =>
-                          Swal.fire({
-                            icon: "error",
-                            title: "Not Allowed",
-                            text: "Only members can be promoted to Admin!",
-                          })
-                        }
-                        className="p-4 text-white bg-gray-400 cursor-not-allowed btn btn-xs"
-                      >
-                        Make Admin
-                      </button>
-                    )}
-
-                    {/* ✅ Promote to Member */}
-                    {user.role !== "member" && (
-                      <button
-                        onClick={() =>
-                          Swal.fire({
-                            title: "Promote to Member?",
-                            icon: "question",
-                            showCancelButton: true,
-                            confirmButtonText: "Yes",
-                          }).then((res) => {
-                            if (res.isConfirmed) {
-                              promoteMutation.mutate({ id: user._id, role: "member" });
-                            }
-                          })
-                        }
-                        className="p-4 text-white bg-[#FACC15] btn btn-xs hover:bg-yellow-600"
-                      >
-                        Make Member
-                      </button>
-                    )}
-
-                    {/* ✅ Delete */}
+                  <td className="flex justify-end gap-2 px-6 py-4 text-right">
                     <button
-                      onClick={() =>
-                        Swal.fire({
-                          title: "Are you sure?",
-                          text: "This action cannot be undone.",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "Delete",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            deleteMutation.mutate(user._id);
-                          }
-                        })
-                      }
-                      className="p-4 text-white bg-red-500 btn btn-xs hover:bg-red-600"
+                      onClick={() => promoteMutation.mutate({ id: u._id, role: u.role === "member" ? "admin" : "member" })}
+                      style={{ background: "var(--color-success)", color: "#fff" }}
+                      className="p-2 rounded"
                     >
-                      Delete
+                      <FiUserCheck />
+                    </button>
+                    <button
+                      onClick={() => deleteMutation.mutate(u._id)}
+                      style={{ background: "var(--color-primary)", color: "#fff" }}
+                      className="p-2 rounded"
+                    >
+                      <FiTrash2 />
                     </button>
                   </td>
-                </motion.tr>
+                </tr>
               ))}
             </tbody>
           </table>
-          {sorted.length === 0 && (
-            <p className="mt-4 text-center text-gray-500">No users found.</p>
-          )}
+
+          <div className="px-6 py-3 text-xs" style={{ color: "var(--color-text-secondary)", borderTop: "1px solid var(--color-background)" }}>
+            Showing {sorted.length} of {users.length} users
+          </div>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 
