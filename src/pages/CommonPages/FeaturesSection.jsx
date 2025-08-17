@@ -40,7 +40,7 @@ const FeaturesSection = () => {
         <h2 className="text-4xl font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-4">
           Why Choose Our Club?
         </h2>
-        <p className="max-w-2xl mx-auto text-lg text-[var(--color-text-secondary)] dark:text-[var(--color-text-secondary)]">
+        <p className="max-w-2xl mx-auto text-lg text-[var(--color-text-primary)] ">
           Discover what makes us the premier choice for athletes of all levels
         </p>
       </motion.div>
@@ -62,10 +62,10 @@ const FeaturesSection = () => {
                 {feature.icon}
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-[var(--color-text-primary)] dark:text-white mb-2">
+                <h3 className="text-xl font-semibold text-[#1E293B]  mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-[var(--color-text-secondary)] dark:text-gray-300">
+                <p className="text-[var(--color-text-secondary)] ">
                   {feature.description}
                 </p>
               </div>
@@ -85,7 +85,7 @@ const FeaturesSection = () => {
         </div>
 
         {/* Image */}
-        <div className="lg:w-1/2">
+        <div className=" lg:w-1/2">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

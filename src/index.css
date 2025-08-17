@@ -4,6 +4,7 @@
 
 *{
   text-decoration: none;
+  
 }
 
 :root {
@@ -15,7 +16,8 @@
   --color-background: #FFFBEB;    /* Warm cream */
   --color-text-primary: #1E293B;  /* Dark gray */
   --color-text-secondary: #64748B;
-  --color-surface: #FFFFFF;       /* Pure white for cards surfaces */
+  --color-surface: #FFFFFF; 
+        /* Pure white for cards surfaces */
    --section-padding: 4rem 2rem;
   --section-min-height: 100vh;
   --container-width: 1200px;

@@ -36,10 +36,10 @@ const TestimonialsSection = () => {
         transition={{ duration: 0.5 }}
         className="mb-16 text-center"
       >
-        <h2 className="text-4xl font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-4">
+        <h2 className="text-4xl font-bold text-[var(--color-primary)]  mb-4">
           Member Experiences
         </h2>
-        <p className="max-w-2xl mx-auto text-lg text-[var(--color-text-secondary)] dark:text-[var(--color-text-secondary)]">
+        <p className="max-w-2xl mx-auto text-lg text-[var(--color-text-primary)] ">
           Hear what our community says about their journey with us
         </p>
       </motion.div>

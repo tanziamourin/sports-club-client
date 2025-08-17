@@ -17,11 +17,12 @@ const ClubSection = () => {
           >
             Our Sports Club
           </motion.h2>
+          <hr className="w-16 h-1 mx-auto mt-3 mb-4 bg-[var(--color-secondary)] rounded" />
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="max-w-3xl mx-auto mt-4 text-lg text-[var(--color-text-primary)] dark:text-[var(--color-text-secondary)]"
+            className="max-w-3xl mx-auto mt-4 text-lg text-[var(--color-text-primary)]"
           >
            Where passion meets performance, fitness becomes lifestyle, and every player belongs to something greater.
           </motion.p>
