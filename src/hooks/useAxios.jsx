@@ -1,7 +1,7 @@
 // import axios from "axios";
 
 // const axiosInstance = axios.create({
-//   baseURL: `http://localhost:5000` ,   
+//   baseURL: `https://sports-club-sever.vercel.app` ,   
 //   // https://sports-club-sever.vercel.app
 // });
 
@@ -15,7 +15,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000", // Your backend URL
+  baseURL: "https://sports-club-sever.vercel.app", // Your backend URL
   withCredentials: true, // If you need cookies/sessions
   timeout: 10000, // 10 second timeout
   headers: {
