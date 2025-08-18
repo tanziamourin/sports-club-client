@@ -62,13 +62,13 @@ const Footer = () => {
         {/* Contact Info */}
         <div>
           <h3 className="mb-3 text-lg font-semibold text-white">Contact Us</h3>
-          <p className="text-sm ">
+          <p className="text-sm text-white">
             📍 123 Club Avenue, Chattogram, Bangladesh
           </p>
-          <p className="text-sm ">
+          <p className="text-sm text-white">
             📞 +880 1234 567890
           </p>
-          <p className="text-sm ">
+          <p className="text-sm text-white">
             ✉️ info@sportsclub.com
           </p>
         </div>

@@ -20,7 +20,12 @@ const Courts = () => {
   const courts = data?.courts || [];
   const totalPages = Math.ceil((data?.total || 0) / limit);
 
-  if (isLoading) return <p className="p-6">Loading courts...</p>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-16">
+        <span className="loading loading-spinner text-[var(--color-primary)]"></span>
+      </div>
+    );
   if (isError || !data || !Array.isArray(data.courts))
     return <p className="p-6">No courts found.</p>;
 

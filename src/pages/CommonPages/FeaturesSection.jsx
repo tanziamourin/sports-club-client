@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -48,7 +49,7 @@ const FeaturesSection = () => {
       {/* Content */}
       <div className="flex flex-col items-center gap-12 lg:flex-row">
         {/* Features List */}
-        <div className="space-y-6 lg:w-1/2">
+        <div className="w-full space-y-6 lg:w-1/2">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -78,9 +79,9 @@ const FeaturesSection = () => {
             transition={{ delay: 0.4 }}
             className="pt-6"
           >
-            <button className="px-8 py-4 text-lg font-semibold text-white transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 dark:bg-[var(--color-secondary)] dark:hover:bg-[var(--color-secondary)]/90">
+            <Link to={'/courts'} className="px-8 py-4 text-lg font-semibold text-white transition-all btn-primary duration-300 rounded-lg shadow-lg hover:shadow-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 dark:bg-[var(--color-secondary)] dark:hover:bg-[var(--color-secondary)]/90">
               Join Today →
-            </button>
+            </Link>
           </motion.div>
         </div>
 

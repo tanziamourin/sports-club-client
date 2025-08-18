@@ -2,23 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { 
-  FiSearch, 
-  FiMail, 
-  FiUserCheck, 
-  FiTrash2,
-  FiChevronUp,
-  FiChevronDown,
-  FiPlus,
-  FiPhone
-} from "react-icons/fi";
+import { FiSearch, FiMail, FiUserCheck, FiTrash2, FiPhone } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("name");
-  const [sortOrder, setSortOrder] = useState("asc");
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["allUsers"],
@@ -59,28 +49,11 @@ const AllUsers = () => {
     },
   });
 
-
-  const filtered = users.filter(u => 
+  const filteredUsers = users.filter(u =>
     u.name?.toLowerCase().includes(search.toLowerCase()) ||
     u.email?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const sorted = [...filtered].sort((a, b) => {
-    const aVal = sortField === "createdAt" ? new Date(a[sortField]) : a[sortField]?.toLowerCase();
-    const bVal = sortField === "createdAt" ? new Date(b[sortField]) : b[sortField]?.toLowerCase();
-    return sortOrder === "asc" ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-  });
-
-  const handleSort = (field) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
-
-  // style object instead of string ⬇️
   const getRoleColor = (role) => {
     switch (role) {
       case "admin":
@@ -93,103 +66,92 @@ const AllUsers = () => {
   };
 
   return (
-    <div className="p-4 md:p-6" style={{ background: "var(--color-background)" }}>
-      <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 className="text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>User Management</h2>
-          <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
-            Manage registered users and their permissions
-          </p>
-        </div>
+    <div className="max-w-6xl px-4 mx-auto mt-10">
+      <h2 className="mb-4 text-4xl font-bold lg:text-5xl" style={{ color: "var(--color-primary)" }}>
+        User Management
+      </h2>
+      <p className="mb-8 text-sm text-[var(--color-text-secondary)]">
+        Manage registered users and their permissions
+      </p>
 
-       
-          <div className="relative w-64">
-            <FiSearch className="absolute -translate-y-1/2 left-3 top-1/2" style={{ color: "var(--color-text-secondary)" }} />
-            <input
-              type="text"
-              placeholder="Search users..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full py-2 pl-10 pr-4 rounded-lg outline-none"
-              style={{
-                background: "var(--color-surface)",
-                color: "var(--color-text-primary)",
-                border: "1px solid var(--color-secondary)"
-              }}
-            />
-         
-         
-        </div>
+      {/* Search */}
+      <div className="relative w-full max-w-sm mb-10">
+        <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+        <input
+          type="text"
+          placeholder="Search users..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full py-2 pl-10 pr-4 rounded-lg outline-none"
+          style={{
+            background: "var(--color-surface)",
+            color: "var(--color-text-primary)",
+            border: "1px solid var(--color-secondary)"
+          }}
+        />
       </div>
 
+      {/* Cards */}
       {isLoading ? (
-        <p style={{ color: "var(--color-text-primary)" }}>Loading...</p>
+        <p className="text-center text-[var(--color-text-primary)]">Loading users...</p>
+      ) : filteredUsers.length === 0 ? (
+        <p className="text-center text-[var(--color-text-secondary)]">No users found.</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl" style={{ background: "var(--color-surface)", border: "1px solid var(--color-secondary)" }}>
-          <table className="min-w-full text-sm">
-            <thead>
-              <tr style={{ background: "var(--color-secondary)", color: "#fff" }}>
-                <th className="px-6 py-3 text-left">User</th>
-                <th className="px-6 py-3 text-left cursor-pointer" onClick={() => handleSort("name")}>
-                  <div className="flex items-center gap-1">
-                    Name {sortField === "name" && (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
-                  </div>
-                </th>
-                <th className="px-6 py-3 text-left">Contact</th>
-                <th className="px-6 py-3 text-left cursor-pointer" onClick={() => handleSort("createdAt")}>
-                  <div className="flex items-center gap-1">
-                    Joined {sortField === "createdAt" && (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
-                  </div>
-                </th>
-                <th className="px-6 py-3 text-left">Role</th>
-                <th className="px-6 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map((u) => (
-                <tr key={u._id} style={{ borderBottom: "1px solid var(--color-background)" }}>
-                  <td className="px-6 py-4">
-                    <img src={u.image} alt="" className="object-cover rounded-full w-9 h-9" />
-                  </td>
-                  <td className="px-6 py-4" style={{ color: "var(--color-text-primary)" }}>
-                    {u.name || "N/A"}
-                  </td>
-                  <td className="px-6 py-4" style={{ color: "var(--color-text-primary)" }}>
-                    <div className="flex items-center gap-1"><FiMail />{u.email}</div>
-                    {u.phone && <div className="flex items-center gap-1 text-xs"><FiPhone />{u.phone}</div>}
-                  </td>
-                  <td className="px-6 py-4 text-xs" style={{ color: "var(--color-text-secondary)" }}>
-                    {new Date(u.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 text-xs font-semibold rounded-full" style={getRoleColor(u.role)}>
-                      {u.role.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="flex justify-end gap-2 px-6 py-4 text-right">
-                    <button
-                      onClick={() => promoteMutation.mutate({ id: u._id, role: u.role === "member" ? "admin" : "member" })}
-                      style={{ background: "var(--color-success)", color: "#fff" }}
-                      className="p-2 rounded"
-                    >
-                      <FiUserCheck />
-                    </button>
-                    <button
-                      onClick={() => deleteMutation.mutate(u._id)}
-                      style={{ background: "var(--color-primary)", color: "#fff" }}
-                      className="p-2 rounded"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredUsers.map(u => (
+            <motion.div
+              key={u._id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02 }}
+              className="p-4 bg-[var(--color-surface)] rounded-2xl shadow hover:shadow-lg border-l-4 border-[var(--color-primary)] flex flex-col justify-between"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <img
+                  src={u.image || "https://via.placeholder.com/40"}
+                  alt={u.name}
+                  className="object-cover w-12 h-12 rounded-full"
+                />
+                <div>
+                  <h3 className="font-semibold text-[var(--color-text-primary)]">{u.name || "N/A"}</h3>
+                  <p className="text-xs text-[var(--color-text-secondary)]">{u.email}</p>
+                </div>
+              </div>
 
-          <div className="px-6 py-3 text-xs" style={{ color: "var(--color-text-secondary)", borderTop: "1px solid var(--color-background)" }}>
-            Showing {sorted.length} of {users.length} users
-          </div>
+              {u.phone && (
+                <div className="flex items-center gap-1 text-sm text-[var(--color-text-secondary)] mb-2">
+                  <FiPhone /> {u.phone}
+                </div>
+              )}
+
+              <div className="mb-4">
+                <span className="px-2 py-1 text-xs font-semibold rounded-full" style={getRoleColor(u.role)}>
+                  {u.role.toUpperCase()}
+                </span>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() =>
+                    promoteMutation.mutate({ id: u._id, role: u.role === "member" ? "admin" : "member" })
+                  }
+                  className="flex-1 px-3 py-2 rounded-lg text-white bg-[var(--color-success)] flex justify-center items-center gap-1"
+                >
+                  <FiUserCheck /> Promote
+                </button>
+                <button
+                  onClick={() => deleteMutation.mutate(u._id)}
+                  className="flex-1 px-3 py-2 rounded-lg text-white bg-[var(--color-primary)] flex justify-center items-center gap-1"
+                >
+                  <FiTrash2 /> Delete
+                </button>
+              </div>
+
+              <p className="mt-3 text-xs text-[var(--color-text-secondary)]">
+                Joined: {new Date(u.createdAt).toLocaleDateString()}
+              </p>
+            </motion.div>
+          ))}
         </div>
       )}
     </div>

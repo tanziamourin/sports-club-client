@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { motion } from "framer-motion";
 
 const UserAnnouncements = () => {
   const axiosSecure = useAxiosSecure();
@@ -13,11 +14,18 @@ const UserAnnouncements = () => {
   });
 
   if (isLoading)
-    return <p className="text-center mt-10 text-[var(--color-text-secondary)]">Loading announcements...</p>;
+    return (
+      <p className="text-center mt-10 text-[var(--color-text-secondary)]">
+        Loading announcements...
+      </p>
+    );
 
   return (
     <div className="max-w-4xl px-4 mx-auto mt-20">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">
+      <h2
+        className="mb-8 text-4xl font-bold text-center lg:text-5xl"
+        style={{ color: "var(--color-primary)" }}
+      >
         Club Announcements
       </h2>
 
@@ -26,11 +34,19 @@ const UserAnnouncements = () => {
           No announcements available.
         </p>
       ) : (
-        <ul className="space-y-6">
+        <div className="grid gap-6">
           {announcements.map((item) => (
-            <li
+            <motion.div
               key={item._id}
-              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow hover:shadow-lg transition border-l-4 border-[var(--color-primary)]"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02 }}
+              className="p-6 transition-all border-l-4 shadow-md rounded-2xl"
+              style={{
+                background: "var(--color-surface)",
+                borderColor: "var(--color-primary)",
+                color: "var(--color-text-primary)",
+              }}
             >
               <h4 className="mb-2 text-xl font-semibold text-[var(--color-primary)]">
                 {item.title}
@@ -41,9 +57,9 @@ const UserAnnouncements = () => {
                   {new Date(item.date).toLocaleDateString()}
                 </p>
               )}
-            </li>
+            </motion.div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

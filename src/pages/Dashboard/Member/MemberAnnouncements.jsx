@@ -16,7 +16,7 @@ const MemberAnnouncements = () => {
 
   return (
     <div className="max-w-4xl px-4 mx-auto mt-20">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">
+      <h2 className="mb-8 text-4xl font-bold lg:text-5xl" style={{color:"var(--color-primary)"}}>
         Club Announcements
       </h2>
 

@@ -4,25 +4,25 @@ import { Link } from "react-router-dom";
 
 const slides = [
   {
-    url: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3840&q=80",
+    url: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80",
     title: "🏟️ Welcome to Our Club",
     description: "Join a community where sports meets passion, and every member matters.",
     align: "left",
     button: { text: "Booking", link: "/courts", color: "btn-primary" }
   },
   {
-    url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3840&q=80",
+    url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80",
     title: "🎾 Premium Courts",
     description: "Enjoy world-class courts designed for every level of play and competition.",
     align: "left",
     button: { text: "Join Now", link: "/login", color: "btn-secondary px-5" }
   },
   {
-    url: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3840&q=80",
+    url: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80",
     title: "🔥 Exciting Activities",
     description: "From tournaments to training sessions, elevate your skills and have fun.",
     align: "left",
-    button: { text: "Activities", link: "/activities", color: "btn-success " }
+    button: { text: "Activities", link: "/membership", color: "btn-success" }
   },
 ];
 
@@ -31,7 +31,7 @@ const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    if (isHovered) return; 
+    if (isHovered) return;
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
     }, 5000);
@@ -41,9 +41,9 @@ const Banner = () => {
   const current = slides[index];
 
   return (
-    <div className="w-full -mt-10">
+    <div className="w-full">
       <div
-        className="relative w-full mt-10 overflow-hidden bg-gray-800 shadow-2xl rounded-2xl aspect-video"
+        className="relative overflow-hidden shadow-2xl rounded-2xl aspect-video md:aspect-[16/6]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -60,7 +60,7 @@ const Banner = () => {
             <img
               src={current.url}
               alt={current.title}
-              className="object-cover w-full h-80%"
+              className="object-cover w-full h-full"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
@@ -89,7 +89,6 @@ const Banner = () => {
                 {current.description}
               </p>
 
-              {/* Dynamic CTA Button */}
               {current.button && (
                 <Link
                   to={current.button.link}
@@ -109,9 +108,7 @@ const Banner = () => {
               key={`dot-${i}`}
               onClick={() => setIndex(i)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                i === index
-                  ? "bg-orange-400 scale-125"
-                  : "bg-white/50 hover:bg-white/75"
+                i === index ? "bg-orange-400 scale-125" : "bg-white/50 hover:bg-white/75"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />

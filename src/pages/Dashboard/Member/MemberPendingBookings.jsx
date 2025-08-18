@@ -10,7 +10,6 @@ const MemberPendingBookings = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  // 🔍 Load pending bookings
   const { data: pendingBookings = [], isLoading } = useQuery({
     queryKey: ["memberPending", user?.email],
     enabled: !!user?.email,
@@ -20,7 +19,6 @@ const MemberPendingBookings = () => {
     },
   });
 
-  // ❌ Cancel Booking Mutation
   const cancelMutation = useMutation({
     mutationFn: (id) => axiosSecure.delete(`/bookings/${id}`),
     onSuccess: () => {
@@ -36,42 +34,40 @@ const MemberPendingBookings = () => {
 
   return (
     <div className="px-4 mt-20 md:px-0">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">Pending Bookings</h2>
+      <h2 className="mb-8 text-4xl font-bold text-center lg:text-5xl" style={{color:"var(--color-primary)"}}>
+        Pending Bookings
+      </h2>
 
       {pendingBookings.length === 0 ? (
         <p className="text-center text-[var(--color-text-secondary)]">No pending bookings found.</p>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols=3">
           {pendingBookings.map((booking) => (
             <motion.div
               key={booking._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02 }}
-              className="p-5 transition-all border shadow-md rounded-xl"
-              style={{
-                background: 'var(--color-surface)',
-                borderColor: 'var(--color-secondary)',
-                color: 'var(--color-text-primary)'
-              }}
+              transition={{ duration: .3 }}
+              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow border-l-4 border-[var(--color-primary)] hover:shadow-lg transition"
             >
-              <p><strong>Court:</strong> {booking.courtType}</p>
-              <p><strong>Slot:</strong> {booking.slot}</p>
-              <p><strong>Date:</strong> {booking.date}</p>
-              <p><strong>Price:</strong> <span className="font-semibold">${booking.price}</span></p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Court:</strong> {booking.courtType}</p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Slot:</strong> {booking.slot}</p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Date:</strong> {booking.date}</p>
+              <p className="mb-4 text-[var(--color-text-primary)]"><strong>Price:</strong> ${booking.price}</p>
 
               <button
-                className="w-full py-2 mt-4 font-semibold text-white transition-colors rounded-lg"
-                style={{ background: 'var(--color-primary)' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'var(--color-secondary)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'var(--color-primary)'}
+                className="w-full py-2 font-semibold text-white transition-colors rounded-lg"
+                style={{ background: 'var(--color-secondary)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'var(--color-primary)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'var(--color-secondary)'}
                 onClick={() =>
                   Swal.fire({
                     title: "Cancel Booking?",
                     text: "Are you sure you want to cancel this booking?",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonText: "Yes, cancel it!",
+                    confirmButtonText: "Yes, cancel it!"
                   }).then((result) => {
                     if (result.isConfirmed) {
                       cancelMutation.mutate(booking._id);

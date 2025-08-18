@@ -12,7 +12,7 @@ const EditProfileModal = ({ formData, setFormData, onClose }) => {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50">
       <div className="w-full max-w-lg p-6 bg-white rounded-xl dark:bg-gray-800">
-        <h3 className="mb-4 text-xl font-bold">Edit Profile</h3>
+        <h3 className="mb-8 text-4xl font-bold lg:text-5xl" style={{color:"var(--color-primary)"}}>Edit Profile</h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name field */}

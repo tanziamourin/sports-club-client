@@ -1,21 +1,26 @@
-import { React, useState, useEffect, useContext } from 'react';
-import { 
-  FaPlus, FaEdit, FaTrash, FaCheck, FaTimes, FaSpinner, FaSearch
-} from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import toast from 'react-hot-toast';
-import useAxios from '../../../hooks/useAxios';
-// import ThemeContext from '../../../context/ThemeContext';
-import ThemeToggle from '../../../components/ThemeToggle';
+import { React, useState, useEffect } from "react";
+import {
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaCheck,
+  FaTimes,
+  FaSpinner,
+  FaSearch,
+} from "react-icons/fa";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import useAxios from "../../../hooks/useAxios";
+
 
 const ManageMembershipPlans = () => {
-
-  const API_BASE = '/admin/membership-plans';
+ 
+  const API_BASE = "/admin/membership-plans";
   const axiosInstance = useAxios();
 
   const [plans, setPlans] = useState([]);
   const [filteredPlans, setFilteredPlans] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,17 +28,16 @@ const ManageMembershipPlans = () => {
   const [isToggling, setIsToggling] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: '',
-    price: '',
-    duration: 'monthly',
+    name: "",
+    price: "",
+    duration: "monthly",
     features: [],
-    description: '',
+    description: "",
     isFeatured: false,
-    active: true
+    active: true,
   });
-  const [newFeature, setNewFeature] = useState('');
+  const [newFeature, setNewFeature] = useState("");
 
-  // Fetch all plans
   const fetchPlans = async () => {
     try {
       setIsLoading(true);
@@ -42,8 +46,7 @@ const ManageMembershipPlans = () => {
       setPlans(plansData);
       setFilteredPlans(plansData);
     } catch (error) {
-      console.error('Fetch plans error:', error);
-      toast.error(error.response?.data?.message || 'Failed to fetch plans');
+      toast.error(error.response?.data?.message || "Failed to fetch plans");
       setPlans([]);
       setFilteredPlans([]);
     } finally {
@@ -56,11 +59,11 @@ const ManageMembershipPlans = () => {
   }, []);
 
   useEffect(() => {
-    if (!searchTerm.trim()) setFilteredPlans(plans);
-    else {
-      const filtered = plans.filter(plan =>
-        plan.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        plan.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!searchTerm.trim()) {
+      setFilteredPlans(plans);
+    } else {
+      const filtered = plans.filter((plan) =>
+        plan.name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredPlans(filtered);
     }
@@ -68,20 +71,26 @@ const ManageMembershipPlans = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleAddFeature = () => {
-    if (newFeature.trim() && !formData.features.includes(newFeature.trim())) {
-      setFormData({ ...formData, features: [...formData.features, newFeature.trim()] });
-      setNewFeature('');
+    if (
+      newFeature.trim() &&
+      !formData.features.includes(newFeature.trim())
+    ) {
+      setFormData({
+        ...formData,
+        features: [...formData.features, newFeature.trim()],
+      });
+      setNewFeature("");
     }
   };
 
-  const handleRemoveFeature = (index) => {
-    const updatedFeatures = [...formData.features];
-    updatedFeatures.splice(index, 1);
-    setFormData({ ...formData, features: updatedFeatures });
+  const handleRemoveFeature = (i) => {
+    const features = [...formData.features];
+    features.splice(i, 1);
+    setFormData({ ...formData, features });
   };
 
   const handleSubmit = async (e) => {
@@ -89,46 +98,48 @@ const ManageMembershipPlans = () => {
     setIsSubmitting(true);
     try {
       if (editingId) {
-        await axiosInstance.put(`${API_BASE}/${editingId}`, formData);
-        toast.success('Plan updated successfully');
+        await axiosInstance.put(
+          `${API_BASE}/${editingId}`,
+          { ...formData, _id: editingId }
+        );
+        toast.success("Plan updated successfully");
       } else {
         await axiosInstance.post(API_BASE, formData);
-        toast.success('Plan created successfully');
+        toast.success("Plan created successfully");
       }
       resetForm();
       await fetchPlans();
     } catch (error) {
-      console.error('Submit error:', error);
-      toast.error(error.response?.data?.message || 'Operation failed');
+      toast.error(error.response?.data?.message || "Operation failed");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // ✅ Put current plan values on the form
   const handleEdit = (plan) => {
     setFormData({
-      name: plan.name || '',
-      price: plan.price || '',
-      duration: plan.duration || 'monthly',
-      features: Array.isArray(plan.features) ? plan.features : [],
-      description: plan.description || '',
-      isFeatured: plan.isFeatured || false,
-      active: plan.active || false
+      name: plan.name,
+      price: plan.price,
+      duration: plan.duration,
+      description: plan.description,
+      features: plan.features,
+      isFeatured: plan.isFeatured,
+      active: plan.active,
     });
     setEditingId(plan._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this plan?')) {
+    if (window.confirm("Delete this plan?")) {
       try {
         setIsDeleting(true);
         await axiosInstance.delete(`${API_BASE}/${id}`);
-        toast.success('Plan deleted successfully');
+        toast.success("Plan deleted");
         await fetchPlans();
       } catch (error) {
-        console.error('Delete error:', error);
-        toast.error(error.response?.data?.message || 'Failed to delete plan');
+        toast.error(error.response?.data?.message || "Failed");
       } finally {
         setIsDeleting(false);
       }
@@ -138,12 +149,15 @@ const ManageMembershipPlans = () => {
   const togglePlanStatus = async (id, currentStatus) => {
     try {
       setIsToggling(true);
-      await axiosInstance.patch(`${API_BASE}/${id}/status`, { active: !currentStatus });
-      toast.success(`Plan ${currentStatus ? 'deactivated' : 'activated'}`);
+      await axiosInstance.patch(`${API_BASE}/${id}/status`, {
+        active: !currentStatus,
+      });
+      toast.success(
+        currentStatus ? "Plan deactivated" : "Plan activated"
+      );
       await fetchPlans();
     } catch (error) {
-      console.error('Toggle status error:', error);
-      toast.error(error.response?.data?.message || 'Failed to update plan status');
+      toast.error("Failed to update plan status");
     } finally {
       setIsToggling(false);
     }
@@ -151,40 +165,42 @@ const ManageMembershipPlans = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      price: '',
-      duration: 'monthly',
+      name: "",
+      price: "",
+      duration: "monthly",
       features: [],
-      description: '',
+      description: "",
       isFeatured: false,
-      active: true
+      active: true,
     });
     setEditingId(null);
   };
 
   return (
-    <div className="container px-4 py-8 mx-auto" style={{ color: 'var(--color-text-primary)' }}>
-      
-      
+    <div
+      className="container px-4 py-8 mx-auto"
+      style={{ color: "var(--color-text-primary)" }}
+    >
+    
 
-      <h1 className="mb-6 text-3xl font-bold">
-        {editingId ? 'Edit Membership Plan' : 'Manage Membership Plans'}
+      <h1 className="mb-8 text-4xl font-bold lg:text-5xl" style={{color:"var(--color-primary)"}}>
+        {editingId ? "Edit Membership Plan" : "Manage Membership Plans"}
       </h1>
 
       {/* Search */}
       <div className="flex mb-6">
-        <div className="relative flex-grow">
+        <div className="relative w-full">
           <FaSearch className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2" />
           <input
             type="text"
-            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm}
             placeholder="Search plans..."
             className="w-full px-4 py-2 pl-10 border rounded-lg"
             style={{
-              background: 'var(--color-surface)',
-              borderColor: 'var(--color-secondary)',
-              color: 'var(--color-text-primary)'
+              background: "var(--color-surface)",
+              borderColor: "var(--color-secondary)",
+              color: "var(--color-text-primary)",
             }}
           />
         </div>
@@ -192,12 +208,13 @@ const ManageMembershipPlans = () => {
 
       {/* Form */}
       <motion.div
+        key={editingId || "new"}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="p-6 mb-8 shadow rounded-xl"
         style={{
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-secondary)'
+          background: "var(--color-surface)",
+          border: "1px solid var(--color-secondary)",
         }}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -212,44 +229,44 @@ const ManageMembershipPlans = () => {
                 required
                 className="w-full px-4 py-2 border rounded-lg"
                 style={{
-                  background: 'var(--color-surface)',
-                  borderColor: 'var(--color-secondary)',
-                  color: 'var(--color-text-primary)'
+                  background: "var(--color-surface)",
+                  borderColor: "var(--color-secondary)",
+                  color: "var(--color-text-primary)",
                 }}
               />
             </div>
             <div>
-              <label className="block mb-1">Price (USD) *</label>
+              <label className="block mb-1">Price *</label>
               <input
                 type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg"
+                style={{
+                  background: "var(--color-surface)",
+                  borderColor: "var(--color-secondary)",
+                  color: "var(--color-text-primary)",
+                }}
                 min="0"
                 step="0.01"
                 required
-                className="w-full px-4 py-2 border rounded-lg"
-                style={{
-                  background: 'var(--color-surface)',
-                  borderColor: 'var(--color-secondary)',
-                  color: 'var(--color-text-primary)'
-                }}
               />
             </div>
           </div>
 
+          {/* Duration */}
           <div>
             <label className="block mb-1">Duration *</label>
             <select
               name="duration"
               value={formData.duration}
               onChange={handleInputChange}
-              required
               className="w-full px-4 py-2 border rounded-lg"
               style={{
-                background: 'var(--color-surface)',
-                borderColor: 'var(--color-secondary)',
-                color: 'var(--color-text-primary)'
+                background: "var(--color-surface)",
+                borderColor: "var(--color-secondary)",
+                color: "var(--color-text-primary)",
               }}
             >
               <option value="weekly">Weekly</option>
@@ -264,37 +281,37 @@ const ManageMembershipPlans = () => {
             <label className="block mb-1">Features *</label>
             <div className="flex mb-2">
               <input
-                type="text"
                 value={newFeature}
                 onChange={(e) => setNewFeature(e.target.value)}
+                type="text"
                 className="flex-1 px-4 py-2 border rounded-l-lg"
                 placeholder="Add feature"
                 style={{
-                  background: 'var(--color-surface)',
-                  borderColor: 'var(--color-secondary)',
-                  color: 'var(--color-text-primary)'
+                  background: "var(--color-surface)",
+                  borderColor: "var(--color-secondary)",
+                  color: "var(--color-text-primary)",
                 }}
               />
               <button
                 type="button"
                 onClick={handleAddFeature}
                 className="px-4 text-white rounded-r-lg"
-                style={{ background: 'var(--color-primary)' }}
+                style={{ background: "var(--color-primary)" }}
               >
                 <FaPlus />
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
-              {formData.features.map((feature, i) => (
+              {formData.features.map((f, i) => (
                 <span
                   key={i}
                   className="flex items-center px-3 py-1 rounded-full"
                   style={{
-                    background: 'var(--color-background)',
-                    color: 'var(--color-text-primary)'
+                    background: "var(--color-background)",
+                    color: "var(--color-text-primary)",
                   }}
                 >
-                  {feature}
+                  {f}
                   <button
                     type="button"
                     className="ml-2 text-red-600"
@@ -312,16 +329,15 @@ const ManageMembershipPlans = () => {
             <label className="block mb-1">Description *</label>
             <textarea
               name="description"
+              rows={3}
               value={formData.description}
               onChange={handleInputChange}
-              rows="3"
               className="w-full px-4 py-2 border rounded-lg"
               style={{
-                background: 'var(--color-surface)',
-                borderColor: 'var(--color-secondary)',
-                color: 'var(--color-text-primary)'
+                background: "var(--color-surface)",
+                borderColor: "var(--color-secondary)",
+                color: "var(--color-text-primary)",
               }}
-              required
             />
           </div>
 
@@ -334,7 +350,7 @@ const ManageMembershipPlans = () => {
                 checked={formData.isFeatured}
                 onChange={handleInputChange}
               />
-              Featured Plan
+              Featured
             </label>
             {editingId && (
               <label className="flex items-center gap-2">
@@ -344,13 +360,12 @@ const ManageMembershipPlans = () => {
                   checked={formData.active}
                   onChange={handleInputChange}
                 />
-                Active Plan
+                Active
               </label>
             )}
           </div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-3 pt-4">
+          <div className="flex justify-end gap-2 pt-4">
             {editingId && (
               <button
                 type="button"
@@ -364,79 +379,99 @@ const ManageMembershipPlans = () => {
               type="submit"
               disabled={isSubmitting}
               className="px-4 py-2 text-white rounded-lg"
-              style={{ background: 'var(--color-primary)' }}
+              style={{ background: "var(--color-primary)" }}
             >
               {isSubmitting && <FaSpinner className="mr-2 animate-spin" />}
-              {editingId ? 'Update Plan' : 'Create Plan'}
+              {editingId ? "Update Plan" : "Create Plan"}
             </button>
           </div>
         </form>
       </motion.div>
 
-      {/* Plans List */}
+      {/* List */}
       {isLoading ? (
         <div className="flex items-center justify-center h-64">
-          <FaSpinner className="text-4xl animate-spin" style={{ color: 'var(--color-primary)' }} />
+          <FaSpinner className="text-4xl animate-spin" style={{ color: "var(--color-primary)" }} />
         </div>
       ) : filteredPlans.length === 0 ? (
-        <div className="py-12 text-center">
-          <p>No membership plans found.</p>
-        </div>
+        <p className="text-center">No membership plans found.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredPlans.map((plan) => (
             <motion.div
               key={plan._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative p-6 overflow-hidden border shadow-md rounded-xl"
+              className="flex flex-col p-6 border shadow-md rounded-xl"
               style={{
-                background: 'var(--color-surface)',
-                borderColor: plan.isFeatured ? 'var(--color-primary)' : 'var(--color-secondary)',
-                opacity: plan.active ? 1 : 0.7
+                background: "var(--color-surface)",
+                borderColor: plan.isFeatured
+                  ? "var(--color-primary)"
+                  : "var(--color-secondary)",
+                opacity: plan.active ? 1 : 0.7,
               }}
             >
               {plan.isFeatured && (
                 <div
                   className="absolute top-0 right-0 px-3 py-1 text-xs font-bold text-white"
-                  style={{ background: 'var(--color-primary)' }}
+                  style={{ background: "var(--color-primary)" }}
                 >
                   FEATURED
                 </div>
               )}
 
               <h3 className="mb-2 text-xl font-bold">{plan.name}</h3>
+
               <span
-                className={`px-2 py-1 text-xs rounded-full mb-4`}
+                className="px-2 py-1 mb-3 text-xs rounded-full"
                 style={{
-                  background: plan.active ? 'var(--color-success)' : 'var(--color-secondary)',
-                  color: 'white'
+                  background: plan.active
+                    ? "var(--color-success)"
+                    : "var(--color-secondary)",
+                  color: "white",
                 }}
               >
-                {plan.active ? 'Active' : 'Inactive'}
+                {plan.active ? "Active" : "Inactive"}
               </span>
+
               <p className="mb-4">{plan.description}</p>
-              <div className="mb-4">
-                <span className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>
+
+              <p className="mb-2">
+                <span
+                  style={{ color: "var(--color-primary)" }}
+                  className="text-lg font-bold"
+                >
                   ${plan.price}
-                </span>
-                <span className="ml-1 text-sm">/{plan.duration}</span>
-              </div>
+                </span>{" "}
+                /{plan.duration}
+              </p>
+
               <ul className="mb-4">
-                {(plan.features || []).map((feature, i) => (
+                {plan.features.map((f, i) => (
                   <li key={i} className="flex items-center">
-                    <FaCheck className="mr-2" style={{ color: 'var(--color-success)' }} />
-                    {feature}
+                    <FaCheck
+                      className="mr-2"
+                      style={{ color: "var(--color-success)" }}
+                    />
+                    {f}
                   </li>
                 ))}
               </ul>
 
-              <div className="flex gap-3">
-                <button onClick={() => handleEdit(plan)} className="flex-1 px-4 py-2 border rounded-lg">
-                  <FaEdit className="mr-2" /> Edit
+              <div className="flex gap-2 mt-auto">
+                <button
+                  onClick={() => handleEdit(plan)}
+                  className="flex-1 px-4 py-2 border rounded-lg"
+                >
+                  <FaEdit className="inline mr-2" />
+                  Edit
                 </button>
-                <button onClick={() => handleDelete(plan._id)} className="flex-1 px-4 py-2 border rounded-lg">
-                  <FaTrash className="mr-2" /> Delete
+                <button
+                  onClick={() => handleDelete(plan._id)}
+                  className="flex-1 px-4 py-2 border rounded-lg"
+                >
+                  <FaTrash className="inline mr-2" />
+                  Delete
                 </button>
               </div>
 
@@ -444,11 +479,11 @@ const ManageMembershipPlans = () => {
                 onClick={() => togglePlanStatus(plan._id, plan.active)}
                 className="w-full py-2 mt-3 rounded-lg"
                 style={{
-                  background: plan.active ? '#FCA5A5' : '#4ADE80',
-                  color: 'var(--color-text-primary)'
+                  background: plan.active ? "#FCA5A5" : "#4ADE80",
+                  color: "var(--color-text-primary)",
                 }}
               >
-                {plan.active ? 'Deactivate Plan' : 'Activate Plan'}
+                {plan.active ? "Deactivate Plan" : "Activate Plan"}
               </button>
             </motion.div>
           ))}

@@ -19,49 +19,49 @@ const CourtCard = ({ court }) => {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="overflow-hidden transition-all duration-300 border shadow-lg rounded-xl"
-      style={{
-        background: "var(--color-surface)",
-        borderColor: "var(--color-secondary)",
-        color: "var(--color-text-primary)"
-      }}
+      whileHover={{ y: -3, boxShadow: "0px 10px 20px rgba(0,0,0,0.08)" }}
+      className="p-6 bg-[var(--color-surface)] rounded-2xl shadow border-l-4 border-[var(--color-primary)] transition"
     >
-      <figure className="relative">
+      <figure className="relative mb-4">
         <img
           src={court.image}
           alt={court.name}
-          className="object-cover w-full h-48"
+          className="object-cover w-full h-48 rounded-xl"
         />
-        <div
-          className="absolute px-2 py-1 text-xs font-semibold rounded top-2 left-2"
+        <span
+          className="absolute px-2 py-1 text-xs font-semibold rounded top-3 left-3"
           style={{
             background: "var(--color-primary)",
-            color: "white"
+            color: "white",
           }}
         >
           {court.type}
-        </div>
+        </span>
       </figure>
 
-      <div className="flex flex-col gap-2 p-4">
-        <h2 className="text-lg font-bold">{court.name}</h2>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold text-[var(--color-primary)]">
+          {court.name}
+        </h3>
+        <p className="text-[var(--color-text-primary)]">
           Price: <span className="font-semibold">${court.price}</span>
+        </p>
+        <p
+          className={`inline-block px-3 py-1 text-sm rounded-full font-semibold ${
+            court.status === "Available"
+              ? "bg-green-100 text-green-600"
+              : court.status === "Unavailable"
+              ? "bg-red-100 text-red-600"
+              : "bg-yellow-100 text-yellow-700"
+          }`}
+        >
+          {court.status}
         </p>
 
         <button
           onClick={handleBookClick}
-          className="px-4 py-2 mt-2 font-semibold text-white transition-colors duration-300 rounded-lg"
-          style={{
-            background: "var(--color-primary)"
-          }}
-          onMouseEnter={e =>
-            (e.currentTarget.style.background = "var(--color-secondary)")
-          }
-          onMouseLeave={e =>
-            (e.currentTarget.style.background = "var(--color-primary)")
-          }
+          className="mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:bg-[var(--color-secondary)] transition"
+          style={{ background: "var(--color-primary)" }}
         >
           Book Now
         </button>

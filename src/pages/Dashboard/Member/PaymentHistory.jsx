@@ -10,7 +10,7 @@ const PaymentHistory = () => {
 
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["paymentHistory", user?.email],
-    enabled: !!user?.email, // ✅ prevent query if email not loaded
+    enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/payments/history/${user.email}`);
       return res.data;
@@ -25,9 +25,14 @@ const PaymentHistory = () => {
   if (isLoading) return <p>Loading payments...</p>;
 
   return (
-    <div className="mt-20">
+    <div className="max-w-6xl px-4 mx-auto mt-20">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Payment History</h2>
+        <h2
+          className="text-4xl font-bold lg:text-5xl"
+          style={{ color: "var(--color-primary)" }}
+        >
+          Payment History
+        </h2>
         <button
           className="btn btn-sm btn-outline"
           onClick={() => setView(view === "table" ? "card" : "table")}
@@ -51,25 +56,30 @@ const PaymentHistory = () => {
             </thead>
             <tbody>
               {current.map((p, i) => (
-             <tr key={p._id}>
-  <td>{i + 1 + page * itemsPerPage}</td><td>{p.userEmail}</td>
-  <td>{p.courtType}</td><td>${p.price}</td>
-  <td>{p.transactionId}</td><td>{new Date(p.date).toLocaleDateString()}</td>
-</tr>
-
+                <tr key={p._id}>
+                  <td>{i + 1 + page * itemsPerPage}</td>
+                  <td>{p.userEmail}</td>
+                  <td>{p.courtType}</td>
+                  <td>${p.price}</td>
+                  <td>{p.transactionId}</td>
+                  <td>{new Date(p.date).toLocaleDateString()}</td>
+                </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {current.map((p) => (
-            <div key={p._id} className="p-4 bg-white text-[var(--color-text-primarys)] rounded shadow">
-              <p><strong>User Email:</strong> {p.userEmail}</p> {/* ✅ Display userEmail */}
-              <p><strong>Court:</strong> {p.courtType}</p>
-              <p><strong>Amount:</strong> ${p.price}</p>
-              <p><strong>Txn ID:</strong> {p.transactionId}</p>
-              <p><strong>Date:</strong> {new Date(p.date).toLocaleDateString()}</p>
+            <div
+              key={p._id}
+              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow border-l-4 border-[var(--color-primary)] hover:shadow-lg transition"
+            >
+              <p className="mb-1"><strong>User Email:</strong> {p.userEmail}</p>
+              <p className="mb-1"><strong>Court:</strong> {p.courtType}</p>
+              <p className="mb-1"><strong>Amount:</strong> ${p.price}</p>
+              <p className="mb-1"><strong>Txn ID:</strong> {p.transactionId}</p>
+              <p className="mb-1"><strong>Date:</strong> {new Date(p.date).toLocaleDateString()}</p>
             </div>
           ))}
         </div>

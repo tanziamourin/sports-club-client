@@ -9,15 +9,11 @@ const ManageAnnouncements = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({ title: "", message: "" });
 
   const { data: announcements = [], isLoading } = useQuery({
     queryKey: ["announcements"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/announcements");
-      return res.data;
-    },
+    queryFn: async () => (await axiosSecure.get("/announcements")).data,
   });
 
   const createMutation = useMutation({
@@ -29,8 +25,6 @@ const ManageAnnouncements = () => {
         text: "Your announcement has been posted.",
         icon: "success",
         confirmButtonColor: "var(--color-primary)",
-        showClass: { popup: "animate__animated animate__fadeInDown" },
-        hideClass: { popup: "animate__animated animate__fadeOutUp" },
       });
       setFormData({ title: "", message: "" });
     },
@@ -60,14 +54,14 @@ const ManageAnnouncements = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <h2 className="mb-10 text-4xl font-bold text-center text-[var(--color-primary)]">
+      <h2 className="mb-8 text-4xl font-bold lg:text-5xl text-[var(--color-primary)]">
         Manage Announcements
       </h2>
 
-      {/* ✅ Add Announcement Form */}
+      {/* Add Announcement Form */}
       <motion.form
         onSubmit={handleAdd}
-        className="max-w-3xl p-6 mx-auto mb-10 border border-gray-200 shadow-lg rounded-2xl"
+        className="max-w-3xl p-6 mx-auto mb-10 border border-[var(--color-secondary)] shadow-lg rounded-2xl bg-[var(--color-surface)]"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -99,78 +93,79 @@ const ManageAnnouncements = () => {
         </div>
       </motion.form>
 
-      {/* ✅ Card View (Mobile) */}
-      <div className="space-y-4 lg:hidden">
+      {/* Card View */}
+      <div className="space-y-6 lg:hidden">
         {isLoading ? (
-          <p className="text-center text-gray-500">Loading...</p>
+          <p className="text-center text-[var(--color-text-secondary)]">Loading...</p>
         ) : announcements.length === 0 ? (
-          <p className="text-center text-gray-500">No announcements found.</p>
+          <p className="text-center text-[var(--color-text-secondary)]">No announcements found.</p>
         ) : (
           announcements.map((a) => (
             <motion.div
               key={a._id}
-              className="p-5 border border-gray-200 shadow-md rounded-xl"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
+              className="flex flex-col overflow-hidden rounded-2xl shadow hover:shadow-lg transition bg-[var(--color-surface)] border border-[var(--color-secondary)]"
             >
-              <h3 className="text-lg font-bold text-[var(--color-primary)]">{a.title}</h3>
-              <p className="mt-1 text-gray-700">{a.message}</p>
-              <div className="flex gap-3 mt-4">
-                <button
-                  className="btn btn-sm bg-[var(--color-secondary)] hover:opacity-90"
-                  onClick={() => navigate(`/dashboard/admin/announcements/edit/${a._id}`)}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    Swal.fire({
-                      title: "Delete?",
-                      icon: "warning",
-                      showCancelButton: true,
-                      confirmButtonText: "Yes",
-                    }).then((result) => {
-                      if (result.isConfirmed) deleteMutation.mutate(a._id);
-                    });
-                  }}
-                  className="text-white bg-red-500 btn btn-sm hover:bg-red-600"
-                >
-                  Delete
-                </button>
+              {/* Top Stripe */}
+              <div className="w-full h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]"></div>
+
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-[var(--color-primary)]">{a.title}</h3>
+                <p className="mt-2 text-[var(--color-text-primary)]">{a.message}</p>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    className="btn btn-sm bg-[var(--color-secondary)] text-white hover:opacity-90"
+                    onClick={() => navigate(`/dashboard/admin/announcements/edit/${a._id}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="text-white bg-red-500 btn btn-sm hover:bg-red-600"
+                    onClick={() => {
+                      Swal.fire({
+                        title: "Delete?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes",
+                      }).then((result) => {
+                        if (result.isConfirmed) deleteMutation.mutate(a._id);
+                      });
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))
         )}
       </div>
 
-      {/* ✅ Table View (Desktop) */}
+      {/* Table View */}
       <motion.div
-        className="hidden overflow-x-auto border border-gray-200 shadow-md rounded-2xl lg:block"
+        className="hidden overflow-x-auto border rounded-2xl lg:block"
         initial={{ y: 15, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
-        <table className="table w-full">
-          <thead className="bg-[var(--color-secondary)] text-white text-md">
+        <table className="min-w-full divide-y divide-[var(--color-secondary)]/20">
+          <thead className="bg-[var(--color-secondary)]/10 text-[var(--color-text-secondary)]">
             <tr>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Message</th>
-              <th className="px-4 py-3">Actions</th>
+              <th className="px-6 py-3 text-sm font-semibold text-left">Title</th>
+              <th className="px-6 py-3 text-sm font-semibold text-left">Message</th>
+              <th className="px-6 py-3 text-sm font-semibold text-left">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-[var(--color-text-primary)]">
+          <tbody className="divide-y divide-[var(--color-secondary)]/10 text-[var(--color-text-primary)]">
             {isLoading ? (
               <tr>
-                <td colSpan="3" className="py-6 text-center">
-                  Loading...
-                </td>
+                <td colSpan="3" className="py-6 text-center">Loading...</td>
               </tr>
             ) : announcements.length === 0 ? (
               <tr>
-                <td colSpan="3" className="py-6 text-center text-gray-500">
-                  No announcements found.
-                </td>
+                <td colSpan="3" className="py-6 text-center text-[var(--color-text-secondary)]">No announcements found.</td>
               </tr>
             ) : (
               announcements.map((a) => (
@@ -179,11 +174,11 @@ const ManageAnnouncements = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="border-b border-gray-200 hover:bg-[#8b8a88] transition-all"
+                  className="hover:bg-[var(--color-secondary)]/10 transition-colors"
                 >
-                  <td className="px-4 py-3 font-medium">{a.title}</td>
-                  <td className="px-4 py-3">{a.message}</td>
-                  <td className="flex gap-3 px-4 py-3">
+                  <td className="px-6 py-4 font-medium">{a.title}</td>
+                  <td className="px-6 py-4">{a.message}</td>
+                  <td className="flex gap-3 px-6 py-4">
                     <button
                       className="btn btn-sm bg-[var(--color-secondary)] text-white hover:opacity-90"
                       onClick={() => navigate(`/dashboard/admin/announcements/edit/${a._id}`)}
@@ -191,6 +186,7 @@ const ManageAnnouncements = () => {
                       Edit
                     </button>
                     <button
+                      className="text-white bg-red-500 btn btn-sm hover:bg-red-600"
                       onClick={() => {
                         Swal.fire({
                           title: "Delete?",
@@ -201,7 +197,6 @@ const ManageAnnouncements = () => {
                           if (result.isConfirmed) deleteMutation.mutate(a._id);
                         });
                       }}
-                      className="text-white bg-red-500 btn btn-sm hover:bg-red-600"
                     >
                       Delete
                     </button>

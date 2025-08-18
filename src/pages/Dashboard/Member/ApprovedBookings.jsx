@@ -11,7 +11,6 @@ const ApprovedBookings = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // 🔍 Load Approved Bookings
   const { data: approved = [], isLoading } = useQuery({
     queryKey: ["approvedBookings", user?.email],
     enabled: !!user?.email,
@@ -21,7 +20,6 @@ const ApprovedBookings = () => {
     },
   });
 
-  // ❌ Cancel Booking
   const cancelMutation = useMutation({
     mutationFn: (id) => axiosSecure.delete(`/bookings/${id}`),
     onSuccess: () => {
@@ -37,7 +35,7 @@ const ApprovedBookings = () => {
 
   return (
     <div className="max-w-5xl px-4 mx-auto mt-20">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">
+      <h2 className="mb-8 text-4xl font-bold text-center lg:text-5xl" style={{ color: "var(--color-primary)" }}>
         Approved Bookings
       </h2>
 
@@ -46,15 +44,15 @@ const ApprovedBookings = () => {
           No approved bookings found.
         </p>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {approved.map((booking) => (
             <div
               key={booking._id}
-              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow hover:shadow-lg transition border border-transparent dark:border-gray-600"
+              className="p-6 bg-[var(--color-surface)] rounded-2xl shadow border-l-4 border-[var(--color-primary)] hover:shadow-lg transition"
             >
-              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Court:</strong> {booking.courtType}</p>
-              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Slot:</strong> {booking.slot}</p>
-              <p className="mb-2 text-[var(--color-text-primary)]"><strong>Date:</strong> {booking.date}</p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Court:</strong> {booking.courtType}</p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Slot:</strong> {booking.slot}</p>
+              <p className="mb-1 text-[var(--color-text-primary)]"><strong>Date:</strong> {booking.date}</p>
               <p className="mb-4 text-[var(--color-text-primary)]"><strong>Price:</strong> ${booking.price}</p>
 
               <div className="flex flex-wrap gap-3">
@@ -66,7 +64,7 @@ const ApprovedBookings = () => {
                 </button>
 
                 <button
-                  className="px-4 py-2 text-white bg-[var(--color-primary)] rounded-lg hover:bg-orange-500 transition"
+                  className="px-4 py-2 text-white bg-[var(--color-secondary)] rounded-lg hover:opacity-90 transition"
                   onClick={() =>
                     Swal.fire({
                       title: "Cancel Booking?",

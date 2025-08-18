@@ -37,7 +37,7 @@ const Navbar = () => {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-700">
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-[#000] dark:border-gray-700">
       {/* Blurred glass effect */}
       <div className="shadow-md">
         <div className="mx-auto max-w-7xl">

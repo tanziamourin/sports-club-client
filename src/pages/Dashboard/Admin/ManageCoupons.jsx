@@ -75,7 +75,7 @@ const ManageCoupons = () => {
     <div
       className={`p-6 min-h-screen transition-colors duration-300 `}
     >
-      <h2 className="mb-10 text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400">
+      <h2 className="mb-8 text-4xl font-bold lg:text-5xl" style={{color:"var(--color-primary)"}}>
         Manage Coupons
       </h2>
 

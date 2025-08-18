@@ -24,17 +24,14 @@ const EditAnnouncement = () => {
         setLoading(false);
       }
     };
-
     fetchAnnouncement();
   }, [id, axiosSecure]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     if (!formData.title || !formData.message) {
       return Swal.fire("⚠️ Please fill all fields", "", "warning");
     }
-
     try {
       await axiosSecure.patch(`/announcements/${id}`, formData);
       Swal.fire("✅ Updated successfully!", "", "success");
@@ -45,46 +42,58 @@ const EditAnnouncement = () => {
     }
   };
 
-  if (loading) return <p className="py-10 text-center">Loading...</p>;
+  if (loading)
+    return <p className="py-10 text-center text-[var(--color-text-secondary)]">Loading...</p>;
 
   return (
     <motion.div
-      className="flex items-center justify-center min-h-screen bg-[var(--color-background)]"
+      className="flex items-center justify-center min-h-screen bg-[var(--color-background)] p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
       <motion.form
         onSubmit={handleUpdate}
-        className="w-full max-w-xl p-8 bg-white rounded-lg shadow-lg"
+        className="w-full max-w-xl bg-[var(--color-surface)] rounded-2xl shadow-lg overflow-hidden"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="text-2xl font-bold text-center mb-6 text-[var(--color-primary)]">Edit Announcement</h2>
+        {/* Top Gradient Stripe */}
+        <div className="w-full h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]"></div>
 
-        <input
-          type="text"
-          placeholder="Title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full mb-4 input input-bordered"
-        />
-        <input
-          type="text"
-          placeholder="Message"
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full mb-6 input input-bordered"
-        />
+        <div className="p-8">
+          <h2 className="mb-8 text-4xl font-bold lg:text-5xl text-[var(--color-primary)]">
+            Edit Announcement
+          </h2>
 
-        <div className="flex justify-end gap-3">
-          <button type="submit" className="btn bg-[var(--color-primary)] text-white">
-            Update
-          </button>
-          <button type="button" onClick={() => navigate(-1)} className="btn btn-outline">
-            Cancel
-          </button>
+          <input
+            type="text"
+            placeholder="Title"
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            className="w-full mb-4 input input-bordered"
+          />
+          <input
+            type="text"
+            placeholder="Message"
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            className="w-full mb-6 input input-bordered"
+          />
+
+          <div className="flex justify-end gap-3">
+            <button type="submit" className="btn bg-[var(--color-primary)] text-white hover:opacity-90">
+              Update
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="btn btn-outline text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </motion.form>
     </motion.div>

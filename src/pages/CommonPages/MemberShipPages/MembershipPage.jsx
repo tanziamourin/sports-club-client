@@ -67,7 +67,7 @@ const MembershipPage = () => {
       <div className="max-w-6xl mx-auto">
         {/* Page Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-extrabold" style={{ color: "var(--color-primary)" }}>
+          <h1 className="text-4xl font-bold text-[var(--color-primary)] lg:text-5xl">
             Choose Your Membership
           </h1>
           <p className="mt-4 text-lg" style={{ color: "var(--color-text-secondary)" }}>

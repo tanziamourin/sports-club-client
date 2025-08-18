@@ -97,38 +97,57 @@ const PaymentForm = ({ booking }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md p-4 mx-auto space-y-4 bg-white rounded shadow">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-6">Payment Form</h2>
+    // inside PaymentForm component (replace the <form> block with this)
 
-      {/* Coupon Apply */}
-      <div className="flex items-center gap-2">
-        <input
-          type="text"
-          placeholder="Enter coupon"
-          className="w-full input input-bordered"
-          value={couponCode}
-          onChange={(e) => setCouponCode(e.target.value)}
-        />
-        <button type="button" className="btn btn-sm btn-info" onClick={handleCouponApply}>
-          Apply
-        </button>
-      </div>
+<form
+  onSubmit={handleSubmit}
+  className="max-w-xl mx-auto mt-20 p-6 bg-[var(--color-surface)] rounded-2xl shadow border-l-4 border-[var(--color-primary)]"
+>
+  <h2
+    className="mb-8 text-4xl font-bold text-center"
+    style={{ color: "var(--color-primary)" }}
+  >
+    Payment Form
+  </h2>
 
-      {/* Read-only booking details */}
-      <input className="w-full input input-bordered" value={user?.email} readOnly />
-      <input className="w-full input input-bordered" value={booking.courtType} readOnly />
-      <input className="w-full input input-bordered" value={Array.isArray(booking.slot) ? booking.slot.join(", ") : booking.slot} readOnly />
-      <input className="w-full input input-bordered" value={booking.date} readOnly />
-      <input className="w-full input input-bordered" value={`$${finalPrice}`} readOnly />
+  {/* Coupon Apply */}
+  <div className="flex items-center gap-2 mb-4">
+    <input
+      type="text"
+      placeholder="Enter coupon"
+      className="w-full input input-bordered"
+      value={couponCode}
+      onChange={(e) => setCouponCode(e.target.value)}
+    />
+    <button
+      type="button"
+      className="btn btn-sm bg-[var(--color-secondary)] text-white hover:opacity-90"
+      onClick={handleCouponApply}
+    >
+      Apply
+    </button>
+  </div>
 
-      {/* Stripe Card Input */}
-      <CardElement className="p-2 border rounded" />
+  {/* Read-only booking details */}
+  <input className="w-full mb-2 input input-bordered" value={user?.email} readOnly />
+  <input className="w-full mb-2 input input-bordered" value={booking.courtType} readOnly />
+  <input className="w-full mb-2 input input-bordered"
+    value={Array.isArray(booking.slot) ? booking.slot.join(", ") : booking.slot} readOnly />
+  <input className="w-full mb-2 input input-bordered" value={booking.date} readOnly />
+  <input className="w-full mb-4 input input-bordered" value={`$${finalPrice}`} readOnly />
 
-      {/* Pay Button */}
-      <button type="submit" className="w-full mt-3 btn btn-primary" disabled={!stripe || !clientSecret}>
-        Pay Now
-      </button>
-    </form>
+  {/* Stripe Card Input */}
+  <CardElement className="p-3 mb-4 border rounded" />
+
+  <button
+    type="submit"
+    className="w-full py-2 font-semibold text-white rounded-lg bg-[var(--color-success)] hover:bg-green-500 transition"
+    disabled={!stripe || !clientSecret}
+  >
+    Pay Now
+  </button>
+</form>
+
   );
 };
 

@@ -29,16 +29,25 @@ const PendingBookings = () => {
   });
 
   if (isLoading)
-    return <p className="mt-8 text-center text-[var(--color-text-secondary)]">Loading bookings...</p>;
+    return (
+      <p className="mt-8 text-center text-[var(--color-text-secondary)]">
+        Loading bookings...
+      </p>
+    );
 
   return (
-    <div className="px-4 mt-20 md:px-0">
-      <h2 className="text-4xl font-bold text-center text-[var(--color-primary)] mb-8">
+    <div className="max-w-5xl px-4 mx-auto mt-20 md:px-0">
+      <h2
+        className="mb-8 text-4xl font-bold text-center lg:text-5xl"
+        style={{ color: "var(--color-primary)" }}
+      >
         Pending Bookings
       </h2>
 
       {bookings.length === 0 ? (
-        <p className="text-center text-[var(--color-text-secondary)]">No pending bookings found.</p>
+        <p className="text-center text-[var(--color-text-secondary)]">
+          No pending bookings found.
+        </p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {bookings.map((booking) => (
@@ -47,16 +56,25 @@ const PendingBookings = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02 }}
-              className="p-5 transition-all border shadow-md rounded-xl"
+              className="p-6 transition-all border-l-4 shadow-md rounded-2xl"
               style={{
                 background: "var(--color-surface)",
-                borderColor: "var(--color-secondary)",
+                borderColor: "var(--color-primary)",
                 color: "var(--color-text-primary)",
               }}
             >
-              <p><strong>Court:</strong> {booking.courtType}</p>
-              <p><strong>Slot:</strong> {Array.isArray(booking.slot) ? booking.slot.join(", ") : booking.slot}</p>
-              <p><strong>Date:</strong> {booking.date}</p>
+              <p>
+                <strong>Court:</strong> {booking.courtType}
+              </p>
+              <p>
+                <strong>Slot:</strong>{" "}
+                {Array.isArray(booking.slot)
+                  ? booking.slot.join(", ")
+                  : booking.slot}
+              </p>
+              <p>
+                <strong>Date:</strong> {booking.date}
+              </p>
               <p>
                 <strong>Price:</strong>{" "}
                 <span className="font-semibold">${booking.price}</span>
@@ -65,8 +83,12 @@ const PendingBookings = () => {
               <button
                 className="w-full py-2 mt-4 font-semibold text-white transition-colors rounded-lg"
                 style={{ background: "var(--color-primary)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-secondary)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "var(--color-primary)")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "var(--color-secondary)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "var(--color-primary)")
+                }
                 onClick={() =>
                   Swal.fire({
                     title: "Cancel Booking?",

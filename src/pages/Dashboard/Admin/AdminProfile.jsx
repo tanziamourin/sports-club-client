@@ -50,12 +50,12 @@ const AdminProfile = () => {
   };
 
   const statsData = [
-    { label: "Total Courts", value: stats.totalCourts || 0, icon: <FiHome />, color: "var(--color-primary)" },
+    { label: "Total Courts", value: stats.totalCourts || 30, icon: <FiHome />, color: "var(--color-primary)" },
     { label: "Total Users", value: stats.totalUsers || 0, icon: <FiUsers />, color: "var(--color-success)" },
     { label: "Total Members", value: stats.totalMembers || 0, icon: <FiStar />, color: "var(--color-secondary)" },
     { label: "Active Bookings", value: stats.activeBookings || 0, icon: <FiCalendar />, color: "var(--color-accent)" },
     { label: "Monthly Revenue", value: `$${stats.monthlyRevenue?.toLocaleString() || 0}`, icon: <FiDollarSign />, color: "var(--color-success)" },
-    { label: "Active Sessions", value: stats.activeSessions || 0, icon: <FiActivity />, color: "var(--color-primary)" }
+    { label: "Active Sessions", value: stats.activeSessions || 20, icon: <FiActivity />, color: "var(--color-primary)" }
   ];
 
   return (
